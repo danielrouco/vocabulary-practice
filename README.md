@@ -3,7 +3,7 @@ A simple and intuitive web app to enhance your vocabulary. Create custom word li
 ## Usage
 ### Create a list
 After introducing the name of the list introduce the list of words with this format:
-> word<sub>1</sub>: translation<sub>1</sub>, word<sub>2</sub>: translation<sub>2</sub>, .. , word<sub>n</sub>: translation<sub>n</sub>
+> word<sub>1</sub>: translation<sub>1</sub>, word<sub>2</sub>: translation<sub>2</sub>, ... , word<sub>n</sub>: translation<sub>n</sub>
 ### Practice a list
 In the practice mode  press `Enter` to submit an answer and press `Enter` again to go to the next question.
 ### Create a list of your Errors 
