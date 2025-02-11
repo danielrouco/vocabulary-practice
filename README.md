@@ -11,7 +11,7 @@ When you finish practicing a list, if you press the `Add error list to your list
 ### Edit a list
 If you press the `Edit` button of a list you will be able to edit the name of the list and also the words.
 > [!WARNING]
-> If you edit a list you will lose all the values of the history graph because I assume that when you edit a list any values or scores about the old list don't make sense for the new list. **This will occur even if you change only the name**. 
+> If you edit a list you will lose all the values of the history graph because I assume that when a list is edited any values or scores about the old list don't make sense for the new list. **This will occur even if you change only the name**. 
 ### Data storage
 > [!CAUTION]
 > All the data (words lists and values for the history graph) is stored in the **Local storage** of the browser so it is highly recommended to have a backup of your lists. 
