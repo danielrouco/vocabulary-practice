@@ -381,3 +381,28 @@ function graph(correctHistory: number[], nQuestions: number): void{
 
     ctx.fill();
 }
+
+function wordEquals(first: Word, second: Word): boolean{
+    return first.word == second.word && first.answer == second.answer;
+}
+
+function arrayIncludesWord(array: Word[], w: Word): boolean{
+    for(let i = 0; i < array.length; i++){
+        if(wordEquals(array[i], w)){
+            return true;
+        }
+    }
+    return false;
+}
+
+function union(first: Word[], second: Word[]): Word[]{
+    let array = structuredClone(first);
+
+    second.forEach((w) => {
+        if(!arrayIncludesWord(array, w)){
+            array.push(w);
+        }
+    })
+
+    return array;
+}
