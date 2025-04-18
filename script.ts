@@ -236,7 +236,7 @@ function renderCorrection(isCorrect: boolean): void{
 
 
 function reverseList(listToReverse: List): List{
-    let list = listToReverse;
+    let list = structuredClone(listToReverse);
 
     for(let i = 0; i < list.words.length; i++){
         let exchange = list.words[i].word;
