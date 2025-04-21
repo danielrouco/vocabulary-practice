@@ -90,7 +90,7 @@ createListBtn.addEventListener("click", function(){
 
 listsDiv.addEventListener("click", function(e){
     let id = (e.target as HTMLElement).id;
-    let index = Number(id[id.length - 1]);
+    let index = Number(id.split("-")[1]);
 
     if(id.includes("delete-")){
         lists.splice(index, 1);
