@@ -72,7 +72,7 @@ createListBtn.addEventListener("click", function () {
 });
 listsDiv.addEventListener("click", function (e) {
     let id = e.target.id;
-    let index = Number(id[id.length - 1]);
+    let index = Number(id.split("-")[1]);
     if (id.includes("delete-")) {
         lists.splice(index, 1);
     }
@@ -193,7 +193,7 @@ function renderCorrection(isCorrect) {
     }
 }
 function reverseList(listToReverse) {
-    let list = listToReverse;
+    let list = structuredClone(listToReverse);
     for (let i = 0; i < list.words.length; i++) {
         let exchange = list.words[i].word;
         list.words[i].word = list.words[i].answer;
@@ -295,4 +295,24 @@ function graph(correctHistory, nQuestions) {
     ctx.lineTo(0, 0);
     ctx.lineTo(500, 0);
     ctx.fill();
+}
+function wordEquals(first, second) {
+    return first.word == second.word && first.answer == second.answer;
+}
+function arrayIncludesWord(array, w) {
+    for (let i = 0; i < array.length; i++) {
+        if (wordEquals(array[i], w)) {
+            return true;
+        }
+    }
+    return false;
+}
+function union(first, second) {
+    let array = structuredClone(first);
+    second.forEach((w) => {
+        if (!arrayIncludesWord(array, w)) {
+            array.push(w);
+        }
+    });
+    return array;
 }
