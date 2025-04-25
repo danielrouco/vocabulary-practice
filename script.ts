@@ -23,6 +23,7 @@ const historyArcticle = document.getElementById("history-article")!;
 const historyTitle = document.getElementById("history-title")!;
 const historyCanvas = document.getElementById("history-canvas")!;
 const closeGraph = document.getElementById("close-graph")!;
+const unionBtn = document.getElementById("union")!;
 
 
 
@@ -31,6 +32,7 @@ let correctAnswers: List;
 let incorrectAnswers: List;
 let lists: List[];
 let isCorrected: boolean;
+let selectedLists: number[] = [];
 
 let practising : {list: List | undefined, listIndex: number | undefined, questionIndex: number} = {
     list: undefined,
@@ -94,6 +96,7 @@ listsDiv.addEventListener("click", function(e){
 
     if(id.includes("delete-")){
         lists.splice(index, 1);
+        renderLists();
     }else if(id.includes("practice-")){
         home.style.display = "none";
         modeSelection.style.display = "flex";
@@ -101,6 +104,7 @@ listsDiv.addEventListener("click", function(e){
         practising.listIndex = index;
         correctAnswers = new List(`Correct of ${practising.list.name}`, []);
         incorrectAnswers = new List(`Errors of ${practising.list.name}`, []);
+        renderLists();
     }else if(id.includes("edit-")){
         nameInput.value = lists[index].name;
         pasteInput.value = wordsToString(lists[index].words);
@@ -108,6 +112,7 @@ listsDiv.addEventListener("click", function(e){
         articlePasteTitle.innerHTML = "Edit the list";
         createListBtn.innerHTML = "Edit";
         location.href = "#paste-input-container";
+        renderLists();
     }else if(id.includes("graph-")){
         historyArcticle.style.display = "flex";
         historyTitle.innerHTML = "History graph of " + lists[index].name;
@@ -119,8 +124,37 @@ listsDiv.addEventListener("click", function(e){
             historyCanvas.innerHTML = "There is not enough data to draw a graph";
         }
         location.href = "#history-article";
-    }
+        renderLists();
+    }else if(id.includes("checkbox-")){
+        let found = false;
+        let foundIndex: number;
+        for(let i = 0; i < selectedLists.length && !found; i++){
+            if(selectedLists[i] == index){
+                found = true;
+                foundIndex = i;
+            }
+        }
 
+        if(found){
+            selectedLists.splice(foundIndex, 1);
+        }else{
+            selectedLists.push(index);
+        }
+
+        if(selectedLists.length >= 2){
+            unionBtn.style.display = "block";
+        }else{
+            unionBtn.style.display = "none";
+        }
+    }
+})
+
+unionBtn.addEventListener("click", function(){
+    let listToUnion: List[] = []
+    selectedLists.forEach((e) => {
+        listToUnion.push(lists[e]);
+    })
+    lists.push(listsUnion(listToUnion));
     renderLists();
 })
 
@@ -179,6 +213,8 @@ function renderLists(): void{
     listsDiv.innerHTML = "";
 
     localStorage.setItem("data", JSON.stringify(lists));
+    selectedLists = [];
+    unionBtn.style.display = "none";
 
     if(lists.length === 0){
         listsDiv.innerHTML = `<h3 id="no-lists">There are no lists</h3>`;
@@ -188,7 +224,10 @@ function renderLists(): void{
     for(let i = 0; i < lists.length; i++){
         listsDiv.innerHTML += `
         <div class="list">
-            <h3>${lists[i].name}</h3>
+            <div class="checkbox-and-name">
+                <input type="checkbox" id="checkbox-${i}" name="checkbok-${i}"class="checkbox"/>
+                <h3>${lists[i].name}</h3>
+            </div>
             <div class="buttons">
                 <button id="practice-${i}">Practice</button>
                 <button class="edit-button" id="edit-${i}">Edit</button>
