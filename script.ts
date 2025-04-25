@@ -395,7 +395,7 @@ function arrayIncludesWord(array: Word[], w: Word): boolean{
     return false;
 }
 
-function union(first: Word[], second: Word[]): Word[]{
+function wordsUnion(first: Word[], second: Word[]): Word[]{
     let array = structuredClone(first);
 
     second.forEach((w) => {
@@ -405,4 +405,12 @@ function union(first: Word[], second: Word[]): Word[]{
     })
 
     return array;
+}
+
+function listsUnion(lists: List[]): List{
+    let newList = lists[0];
+    for(let i = 1; i < lists.length; i++){
+        newList = new List("Union", wordsUnion(newList.words, lists[1].words));
+    }
+    return newList;
 }
