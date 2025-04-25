@@ -68,11 +68,11 @@ article{
 }
 
 button{
-    background-color: var(--color2);  
+    background-color: var(--color2);
     padding: 7px 15px;
     border-radius: 5px;
     cursor: pointer;
-    border: 0;  
+    border: 0;
     color: white;
 }
 
@@ -360,4 +360,21 @@ h3{
 #github img{
 	width: 100%;
 	height: 100%;
+}
+
+.checkbox{
+    cursor: pointer;
+    width: 16px;
+    height: 16px;
+}
+
+.checkbox-and-name{
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+#union{
+    font-size: 23px;
+    display: none;
 }
