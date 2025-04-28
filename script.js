@@ -24,6 +24,8 @@ const historyTitle = document.getElementById("history-title");
 const historyCanvas = document.getElementById("history-canvas");
 const closeGraph = document.getElementById("close-graph");
 const unionBtn = document.getElementById("union");
+const deleteBtn = document.getElementById("delete");
+const areYouSure = document.getElementById("are-you-sure");
 let correctAnswer;
 let correctAnswers;
 let incorrectAnswers;
@@ -75,11 +77,7 @@ createListBtn.addEventListener("click", function () {
 listsDiv.addEventListener("click", function (e) {
     let id = e.target.id;
     let index = Number(id.split("-")[1]);
-    if (id.includes("delete-")) {
-        lists.splice(index, 1);
-        renderLists();
-    }
-    else if (id.includes("practice-")) {
+    if (id.includes("practice-")) {
         home.style.display = "none";
         modeSelection.style.display = "flex";
         practising.list = new List(lists[index].name, randomize(lists[index].words));
@@ -125,6 +123,12 @@ listsDiv.addEventListener("click", function (e) {
         else {
             selectedLists.push(index);
         }
+        if (selectedLists.length >= 1) {
+            deleteBtn.style.display = "block";
+        }
+        else {
+            deleteBtn.style.display = "none";
+        }
         if (selectedLists.length >= 2) {
             unionBtn.style.display = "block";
         }
@@ -140,6 +144,24 @@ unionBtn.addEventListener("click", function () {
     });
     lists.push(listsUnion(listToUnion));
     renderLists();
+});
+deleteBtn.addEventListener("click", function () {
+    areYouSure.style.display = "flex";
+    location.href = "#are-you-sure";
+});
+areYouSure.addEventListener("click", function (e) {
+    let id = e.target.id;
+    if (id == "yes") {
+        selectedLists.sort((a, b) => a - b);
+        for (let i = selectedLists.length - 1; i >= 0; i--) {
+            lists.splice(selectedLists[i], 1);
+        }
+        areYouSure.style.display = "none";
+        renderLists();
+    }
+    else if (id == "no") {
+        areYouSure.style.display = "none";
+    }
 });
 closeGraph.addEventListener("click", function () {
     historyArcticle.style.display = "none";
@@ -184,6 +206,7 @@ function renderLists() {
     localStorage.setItem("data", JSON.stringify(lists));
     selectedLists = [];
     unionBtn.style.display = "none";
+    deleteBtn.style.display = "none";
     if (lists.length === 0) {
         listsDiv.innerHTML = `<h3 id="no-lists">There are no lists</h3>`;
         return;
@@ -193,12 +216,11 @@ function renderLists() {
         <div class="list">
             <div class="checkbox-and-name">
                 <input type="checkbox" id="checkbox-${i}" name="checkbok-${i}"class="checkbox"/>
-                <h3>${lists[i].name}</h3>
+                <h3 class="list-name">${lists[i].name}</h3>
             </div>
             <div class="buttons">
                 <button id="practice-${i}">Practice</button>
                 <button class="edit-button" id="edit-${i}">Edit</button>
-                <button class="delete-button" id="delete-${i}">Delete</button>
                 <button class="graph-button" id="graph-${i}">Graph</button>
             </div>
         </div>
