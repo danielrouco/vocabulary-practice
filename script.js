@@ -136,6 +136,12 @@ listsDiv.addEventListener("click", function (e) {
             unionBtn.style.display = "none";
         }
     }
+    else if (id.includes("duplicate-")) {
+        let duplicate = structuredClone(lists[index]);
+        duplicate.name = `Duplicate of ${duplicate.name}`;
+        lists.push(duplicate);
+        renderLists();
+    }
 });
 unionBtn.addEventListener("click", function () {
     let listToUnion = [];
@@ -221,6 +227,7 @@ function renderLists() {
             <div class="buttons">
                 <button id="practice-${i}">Practice</button>
                 <button class="edit-button" id="edit-${i}">Edit</button>
+                <button class="duplicate-button" id="duplicate-${i}">Duplicate</button>
                 <button class="graph-button" id="graph-${i}">Graph</button>
             </div>
         </div>
