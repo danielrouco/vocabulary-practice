@@ -34,12 +34,14 @@ let incorrectAnswers: List;
 let lists: List[];
 let isCorrected: boolean;
 let selectedLists: number[] = [];
+let inPractice = false;
 
 let practising : {list: List | undefined, listIndex: number | undefined, questionIndex: number} = {
     list: undefined,
     listIndex: undefined,
     questionIndex: 0
 }
+
 class List{
     name: string;
     words: Word[];
@@ -98,6 +100,7 @@ listsDiv.addEventListener("click", function(e){
     if(id.includes("practice-")){
         home.style.display = "none";
         modeSelection.style.display = "flex";
+        inPractice = true;
         practising.list = new List(lists[index].name, randomize(lists[index].words));
         practising.listIndex = index;
         correctAnswers = new List(`Correct of ${practising.list.name}`, []);
@@ -211,7 +214,7 @@ modeSelection.addEventListener("click", function(e){
 
 
 document.addEventListener("keydown", function(e){
-    if(e.key === "Enter"){
+    if(inPractice && e.key === "Enter"){
         if(isCorrected){
             next();
         }else{
@@ -220,7 +223,7 @@ document.addEventListener("keydown", function(e){
     }
 })
 
-homeBtn.addEventListener("click", function(){goHome()});
+homeBtn.addEventListener("click", goHome);
 
 errorsBtn.addEventListener("click", function(){
     if(incorrectAnswers.isReversed){
@@ -343,6 +346,8 @@ function renderResults(): void{
     result.style.display = "flex";
     correct.style.display = "none";
     incorrect.style.display = "none";
+
+    inPractice = false;
 
     if(incorrectAnswers.words.length === 0){
         errorsBtn.style.display = "none";
