@@ -382,6 +382,13 @@ h3{
     background-color: var(--color3);
 }
 
+#export {
+  font-size: 23px;
+  display: none;
+  background-color: var(--color1);
+}
+
+
 #select-buttons{
     display: flex;
     gap: 10px;

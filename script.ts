@@ -26,6 +26,8 @@ const closeGraph = document.getElementById("close-graph")!;
 const unionBtn = document.getElementById("union")!;
 const deleteBtn = document.getElementById("delete")!;
 const areYouSure = document.getElementById("are-you-sure")!;
+const importBtn = document.getElementById("import")!;
+const exportBtn = document.getElementById("export")!;
 
 
 let correctAnswer: string;
@@ -144,8 +146,10 @@ listsDiv.addEventListener("click", function(e){
 
         if(selectedLists.length >= 1){
             deleteBtn.style.display = "block";
+            exportBtn.style.display = "block";
         }else{
             deleteBtn.style.display = "none"
+            exportBtn.style.display = "none";
         }
 
         if(selectedLists.length >= 2){
@@ -174,6 +178,11 @@ deleteBtn.addEventListener("click", function(){
     areYouSure.style.display = "flex";
     location.href = "#are-you-sure"
 })
+
+exportBtn.addEventListener("click", function () {
+  console.log("Export button clicked, selectedLists:", selectedLists);
+  exportListWords(selectedLists);
+});
 
 areYouSure.addEventListener("click", function(e){
    let id = (e.target as HTMLElement).id;
@@ -486,4 +495,24 @@ function listsUnion(lists: List[]): List{
         newList = new List("Union", wordsUnion(newList.words, lists[1].words));
     }
     return newList;
+}
+
+
+function exportListWords(selectedLists: number[]): void {
+  const selectedListsWords: List[] = [];
+
+  selectedLists.forEach((e) => {
+    selectedListsWords.push(lists[e]);
+  });
+
+  const jsonData = JSON.stringify(selectedListsWords);
+  const blob = new Blob([jsonData], { type: "application/json" });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = "lists.json";
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
 }
