@@ -263,6 +263,24 @@ h3{
     align-items: center;
 }
 
+#impexp-buttons{
+    position: fixed;
+    left: 20px; 
+    bottom: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+#export-all{
+    background-color: cadetblue;
+    font-size: 16px;
+}
+
+#import-all{
+    background-color: goldenrod;
+    font-size: 16px;
+}
 
 .data{
     display: flex;

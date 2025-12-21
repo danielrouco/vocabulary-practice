@@ -26,6 +26,9 @@ const closeGraph = document.getElementById("close-graph")!;
 const unionBtn = document.getElementById("union")!;
 const deleteBtn = document.getElementById("delete")!;
 const areYouSure = document.getElementById("are-you-sure")!;
+const exportallBtn = document.getElementById("export-all");
+const importallBtn = document.getElementById("import-all");
+const importallFileBtn = document.getElementById("import-file");
 
 
 let correctAnswer: string;
@@ -236,6 +239,49 @@ errorsBtn.addEventListener("click", function(){
     goHome();
 })
 
+exportallBtn.addEventListener("click", function(){
+    if (!lists) {
+        alert("No Lists to export.");
+        return;
+    }
+
+    const jsonfiles = JSON.stringify(lists);
+    const blob = new Blob([jsonfiles], {type: "application/json"});
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "vocabulary-practice-data.json";
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+})
+
+importallBtn.addEventListener("click", function() {
+    importallFileBtn.click();
+})
+
+importallFileBtn.addEventListener("change", function(e) {
+    const file = (e.target as HTMLInputElement).files?.[0];
+
+    const reader = new FileReader();
+    reader.onload = function() {
+        try {
+            const listtext = reader.result as string;
+            const importedlists = JSON.parse(listtext) as List[];
+
+            if (!Array.isArray(importedlists)) {
+                throw new Error("Invalid format");
+            }
+
+            lists = importedlists;
+            renderLists();
+        } catch (err) {
+            alert("Invalid format, please use a JSON file");
+        }
+    }
+    reader.readAsText(file);
+})
 
 //#region FUNCTIONS
 
