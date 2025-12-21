@@ -20,8 +20,11 @@
             <h2 id="article-paste-title">Create a list with your vocabulary</h2>
             <input type="text" name="name-input" id="name-input" placeholder="Name of the list"></input>
             <input type="text" name="paste-input" id="paste-input" placeholder="Example: can: poder, eat: comer, enjoy: disfrutar"></input>
-            <button id="create-list">Create list</button>
-            <button id="import">Import</button>
+            <div class="create-buttons">
+                <button id="create-list">Create list</button>
+                <label for="import" id="import-label">Import</label>
+                <input type="file" id="import" accept=".json">
+            </div>
         </article>
 
         <article id="history-article">

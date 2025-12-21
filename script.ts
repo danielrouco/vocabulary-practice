@@ -184,6 +184,8 @@ exportBtn.addEventListener("click", function () {
   exportListWords(selectedLists);
 });
 
+importBtn.addEventListener("change", importListWords);
+
 areYouSure.addEventListener("click", function(e){
    let id = (e.target as HTMLElement).id;
    if(id == "yes"){
@@ -515,4 +517,39 @@ function exportListWords(selectedLists: number[]): void {
   a.click();
   document.body.removeChild(a);
   URL.revokeObjectURL(url);
+}
+
+function importListWords(event: Event): void {
+	const target = event.target as HTMLInputElement;
+	const file = target.files?.[0];
+
+	if (!file) {
+		return;
+	}
+
+
+	const reader = new FileReader();
+
+	reader.onload = function (event) {
+		try {
+			const jsonData = event.target?.result as string;
+			const importedLists: List[] = JSON.parse(jsonData);
+
+			// Add imported lists to existing lists
+			importedLists.forEach((importedList) => {
+				lists.push(new List(importedList.name, importedList.words));
+			});
+
+			renderLists();
+			location.href = "#lists-container";
+
+			// Reset the file input
+			target.value = "";
+		} catch (error) {
+			console.error("Error parsing JSON file:", error);
+			alert("Error: Invalid JSON file format");
+		}
+	};
+
+	reader.readAsText(file);
 }
