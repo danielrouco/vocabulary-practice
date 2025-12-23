@@ -11,7 +11,7 @@
 *{
     margin: 0px;
     padding: 0px;
-    font-family: calibri;
+    font-family: Calibri, Arial, sans-serif;
 }
 
 html{
@@ -265,7 +265,7 @@ h3{
 
 #impexp-buttons{
     position: fixed;
-    left: 20px; 
+    left: 20px;
     bottom: 20px;
     display: flex;
     flex-direction: column;
