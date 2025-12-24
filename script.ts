@@ -1,7 +1,6 @@
 const createListBtn = document.getElementById("create-list")!;
 const nameInput = document.getElementById("name-input")! as HTMLInputElement;
 const pasteInput = document.getElementById("paste-input")! as HTMLInputElement;
-const formatError = document.getElementById("format-error")!;
 const home = document.getElementById("home")!;
 const modeSelection = document.getElementById("mode-selection")!;
 const listsDiv = document.getElementById("lists")!;
@@ -88,32 +87,7 @@ renderLists();
 
 
 createListBtn.addEventListener("click", function(){
-    // Hide any previous error messages
-    formatError.style.display = "none";
-    
-    // Validate that name is not empty
-    if (!nameInput.value.trim()) {
-        formatError.textContent = "Please enter a name for your list.";
-        formatError.style.display = "block";
-        return;
-    }
-    
-    // Validate that input is not empty
-    if (!pasteInput.value.trim()) {
-        formatError.textContent = "List is empty. Please enter words according to the example format.";
-        formatError.style.display = "block";
-        return;
-    }
-    
-    const words = stringToWords(pasteInput.value);
-    
-    if (words.length === 0) {
-        formatError.textContent = "Incorrect Format. Example: can: poder, get: obtener / llegar / conseguir";
-        formatError.style.display = "block";
-        return;
-    }
-    
-    lists.push(new List(nameInput.value, words));
+    lists.push(new List(nameInput.value, stringToWords(pasteInput.value)));
 
     articlePasteTitle.innerHTML = "Create a list with your vocabulary";
     createListBtn.innerHTML = "Create list";

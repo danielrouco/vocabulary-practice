@@ -68,17 +68,6 @@ article{
     width: 500px;
 }
 
-.error-message{
-    color: var(--color3);
-    background-color: rgba(176, 76, 76, 0.1);
-    padding: 10px 15px;
-    border-radius: 5px;
-    border-left: 4px solid var(--color3);
-    font-size: 16px;
-    max-width: 500px;
-    text-align: left;
-}
-
 button{
     background-color: var(--color2);
     padding: 7px 15px;
