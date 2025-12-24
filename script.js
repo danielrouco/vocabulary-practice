@@ -320,7 +320,7 @@ function renderCorrection(isCorrect) {
     answerInput.value = "";
     isCorrected = true;
     const current = practising.list.words[practising.questionIndex - 1];
-    const displayQuestion = practising.list.isReversed ? current.answers.join(" / ") : current.word;
+    const displayQuestion = practising.list.isReversed ? current.answers.map((a) => a.ans).join(" / ") : current.word;
     if (isCorrect) {
         correct.style.display = "flex";
         correctAnswers.words.push(current);
