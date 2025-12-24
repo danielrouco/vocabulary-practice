@@ -341,7 +341,7 @@ function renderLists(): void{
 
 function renderQuestion(wordObject: Word): void{
     const isReversed = practising.list!.isReversed;
-    const allTranslations = wordObject.answers.join(" / ");
+    const allTranslations = wordObject.answers.map(a => a.ans).join(" / ");
 
     if (isReversed) {
         word.innerHTML = allTranslations;
