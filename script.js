@@ -53,12 +53,18 @@ class List {
         this.correctHistory = [];
     }
 }
+class Answer {
+    ans;
+    constructor(ans) {
+        this.ans = ans;
+    }
+}
 class Word {
     word;
-    answer;
-    constructor(word, answer) {
+    answers;
+    constructor(word, answers) {
         this.word = word;
-        this.answer = answer;
+        this.answers = answers;
     }
 }
 let data = localStorage.getItem("data");
@@ -196,7 +202,20 @@ document.addEventListener("keydown", function (e) {
             next();
         }
         else {
-            renderCorrection(answerInput.value === correctAnswer);
+            const userInput = answerInput.value.trim().toLowerCase();
+            const currentWord = practising.list.words[practising.questionIndex - 1];
+            let isOk = false;
+            if (practising.list.isReversed) {
+                isOk = (userInput === currentWord.word.toLowerCase());
+            }
+            else {
+                const answersArray = Array.isArray(currentWord.answers) ? currentWord.answers : [{ ans: currentWord.answers }];
+                isOk = answersArray.some(a => {
+                    const text = (typeof a === 'string') ? a : a.ans;
+                    return text.trim().toLowerCase() === userInput;
+                });
+            }
+            renderCorrection(isOk);
         }
     }
 });
@@ -278,8 +297,16 @@ function renderLists() {
     }
 }
 function renderQuestion(wordObject) {
-    word.innerHTML = wordObject.word;
-    correctAnswer = wordObject.answer;
+    const isReversed = practising.list.isReversed;
+    const allTranslations = wordObject.answers.map(a => a.ans).join(" / ");
+    if (isReversed) {
+        word.innerHTML = allTranslations;
+        correctAnswer = wordObject.word;
+    }
+    else {
+        word.innerHTML = wordObject.word;
+        correctAnswer = allTranslations;
+    }
     isCorrected = false;
     correct.style.display = "none";
     incorrect.style.display = "none";
@@ -292,25 +319,27 @@ function renderCorrection(isCorrect) {
     questionContainer.style.display = "none";
     answerInput.value = "";
     isCorrected = true;
+    const current = practising.list.words[practising.questionIndex - 1];
+    const displayQuestion = practising.list.isReversed ? current.answers.join(" / ") : current.word;
     if (isCorrect) {
         correct.style.display = "flex";
-        correctAnswers.words.push(practising.list.words[practising.questionIndex - 1]);
+        correctAnswers.words.push(current);
     }
     else {
         incorrect.style.display = "flex";
         incorrect.innerHTML = `<div>
-        No!<br>The answer for <span class="black">${practising.list.words[practising.questionIndex - 1].word}</span> was: <span class="green">${correctAnswer}</span>
+        No!<br>The answer for <span class="black">${displayQuestion}</span> was: <span class="green">${correctAnswer}</span>
         </div>`;
-        incorrectAnswers.words.push(practising.list.words[practising.questionIndex - 1]);
+        incorrectAnswers.words.push(current);
     }
 }
 function reverseList(listToReverse) {
     let list = structuredClone(listToReverse);
-    for (let i = 0; i < list.words.length; i++) {
+    /** for(let i = 0; i < list.words.length; i++){
         let exchange = list.words[i].word;
         list.words[i].word = list.words[i].answer;
         list.words[i].answer = exchange;
-    }
+    } **/
     list.isReversed = true;
     return list;
 }
@@ -353,24 +382,34 @@ function renderResults() {
     localStorage.setItem("data", JSON.stringify(lists));
 }
 function stringToWords(string) {
-    let array = string.split(",");
-    let transitionArray = new Array(array.length);
-    let words = new Array(array.length);
-    for (let i = 0; i < array.length; i++) {
-        transitionArray[i] = array[i].split(":");
-        words[i] = new Word(transitionArray[i][0].trim(), transitionArray[i][1].trim());
-    }
-    return words;
+    if (!string.trim())
+        return [];
+    return string.split(",").map(pair => {
+        const [wordPart, answersPart] = pair.split(":");
+        if (!answersPart)
+            return null;
+        const answerObjects = answersPart.split("/")
+            .map(a => new Answer(a.trim()))
+            .filter(a => a.ans !== "");
+        return new Word(wordPart.trim(), answerObjects);
+    }).filter(w => w !== null);
 }
 function wordsToString(words) {
-    let string = "";
-    for (let i = 0; i < words.length; i++) {
+    /**let string = "";
+
+    for(let i = 0; i < words.length; i++){
         string += `${words[i].word}: ${words[i].answer}`;
-        if (i + 1 != words.length) {
+
+        if(i + 1 != words.length){
             string += ", ";
         }
     }
-    return string;
+
+    return string; **/
+    return words.map(w => {
+        const answerString = w.answers.map(a => a.ans).join(" / ");
+        return `${w.word}: ${answerString}`;
+    }).join(", ");
 }
 function random(max) {
     return Math.round(Math.random() * max);
@@ -410,7 +449,7 @@ function graph(correctHistory, nQuestions) {
     ctx.fill();
 }
 function wordEquals(first, second) {
-    return first.word == second.word && first.answer == second.answer;
+    return first.word == second.word && JSON.stringify(first.answers.sort()) === JSON.stringify(second.answers.sort());
 }
 function arrayIncludesWord(array, w) {
     for (let i = 0; i < array.length; i++) {
@@ -432,7 +471,7 @@ function wordsUnion(first, second) {
 function listsUnion(lists) {
     let newList = lists[0];
     for (let i = 1; i < lists.length; i++) {
-        newList = new List("Union", wordsUnion(newList.words, lists[1].words));
+        newList = new List("Union", wordsUnion(newList.words, lists[i].words));
     }
     return newList;
 }
