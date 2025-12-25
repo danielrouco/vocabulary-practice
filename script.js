@@ -1,6 +1,7 @@
 const createListBtn = document.getElementById("create-list");
 const nameInput = document.getElementById("name-input");
 const pasteInput = document.getElementById("paste-input");
+const formatError = document.getElementById("format-error");
 const home = document.getElementById("home");
 const modeSelection = document.getElementById("mode-selection");
 const listsDiv = document.getElementById("lists");
@@ -76,7 +77,27 @@ else {
 }
 renderLists();
 createListBtn.addEventListener("click", function () {
-    lists.push(new List(nameInput.value, stringToWords(pasteInput.value)));
+    // Hide any previous error messages
+    formatError.style.display = "none";
+    // Validate that name is not empty
+    if (!nameInput.value.trim()) {
+        formatError.textContent = "Please enter a name for your list.";
+        formatError.style.display = "block";
+        return;
+    }
+    // Validate that input is not empty
+    if (!pasteInput.value.trim()) {
+        formatError.textContent = "List is empty. Please enter words according to the example format.";
+        formatError.style.display = "block";
+        return;
+    }
+    const words = stringToWords(pasteInput.value);
+    if (words.length === 0) {
+        formatError.textContent = "Incorrect Format. Example: can: poder, get: obtener / llegar / conseguir";
+        formatError.style.display = "block";
+        return;
+    }
+    lists.push(new List(nameInput.value, words));
     articlePasteTitle.innerHTML = "Create a list with your vocabulary";
     createListBtn.innerHTML = "Create list";
     pasteInput.value = "";
@@ -320,7 +341,7 @@ function renderCorrection(isCorrect) {
     answerInput.value = "";
     isCorrected = true;
     const current = practising.list.words[practising.questionIndex - 1];
-    const displayQuestion = practising.list.isReversed ? current.answers.map((a) => a.ans).join(" / ") : current.word;
+    const displayQuestion = practising.list.isReversed ? current.answers.map(a => a.ans).join(" / ") : current.word;
     if (isCorrect) {
         correct.style.display = "flex";
         correctAnswers.words.push(current);
