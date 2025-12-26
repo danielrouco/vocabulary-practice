@@ -258,6 +258,7 @@ function renderLists(): void{
     selectedLists = [];
     unionBtn.style.display = "none";
     deleteBtn.style.display = "none";
+    exportBtn.style.display = "none";
 
     if(lists.length === 0){
         listsDiv.innerHTML = `<h3 id="no-lists">There are no lists</h3>`;
