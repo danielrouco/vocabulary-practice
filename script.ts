@@ -27,6 +27,7 @@ const unionBtn = document.getElementById("union")!;
 const deleteBtn = document.getElementById("delete")!;
 const areYouSure = document.getElementById("are-you-sure")!;
 const importBtn = document.getElementById("import")!;
+const importLabelBtn = document.getElementById("import-label")!;
 const exportBtn = document.getElementById("export")!;
 
 
@@ -84,6 +85,7 @@ createListBtn.addEventListener("click", function(){
 
     articlePasteTitle.innerHTML = "Create a list with your vocabulary";
     createListBtn.innerHTML = "Create list";
+    importLabelBtn.style.display = "block";
 
     pasteInput.value = "";
     nameInput.value = "";
@@ -114,6 +116,7 @@ listsDiv.addEventListener("click", function(e){
         lists.splice(index, 1);
         articlePasteTitle.innerHTML = "Edit the list";
         createListBtn.innerHTML = "Edit";
+        importLabelBtn.style.display = "none";
         location.href = "#paste-input-container";
         renderLists();
     }else if(id.includes("graph-")){
