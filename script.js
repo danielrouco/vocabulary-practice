@@ -27,6 +27,9 @@ const closeGraph = document.getElementById("close-graph");
 const unionBtn = document.getElementById("union");
 const deleteBtn = document.getElementById("delete");
 const areYouSure = document.getElementById("are-you-sure");
+const importBtn = document.getElementById("import");
+const importLabelBtn = document.getElementById("import-label");
+const exportBtn = document.getElementById("export");
 const exportallBtn = document.getElementById("export-all");
 const importallBtn = document.getElementById("import-all");
 const importallFileBtn = document.getElementById("import-file");
@@ -100,6 +103,7 @@ createListBtn.addEventListener("click", function () {
     lists.push(new List(nameInput.value, words));
     articlePasteTitle.innerHTML = "Create a list with your vocabulary";
     createListBtn.innerHTML = "Create list";
+    importLabelBtn.style.display = "block";
     pasteInput.value = "";
     nameInput.value = "";
     renderLists();
@@ -124,6 +128,7 @@ listsDiv.addEventListener("click", function (e) {
         lists.splice(index, 1);
         articlePasteTitle.innerHTML = "Edit the list";
         createListBtn.innerHTML = "Edit";
+        importLabelBtn.style.display = "none";
         location.href = "#paste-input-container";
         renderLists();
     }
@@ -157,9 +162,11 @@ listsDiv.addEventListener("click", function (e) {
         }
         if (selectedLists.length >= 1) {
             deleteBtn.style.display = "block";
+            exportBtn.style.display = "block";
         }
         else {
             deleteBtn.style.display = "none";
+            exportBtn.style.display = "none";
         }
         if (selectedLists.length >= 2) {
             unionBtn.style.display = "block";
@@ -187,6 +194,11 @@ deleteBtn.addEventListener("click", function () {
     areYouSure.style.display = "flex";
     location.href = "#are-you-sure";
 });
+exportBtn.addEventListener("click", function () {
+    console.log("Export button clicked, selectedLists:", selectedLists);
+    exportListWords(selectedLists);
+});
+importBtn.addEventListener("change", importListWords);
 areYouSure.addEventListener("click", function (e) {
     let id = e.target.id;
     if (id == "yes") {
@@ -296,6 +308,7 @@ function renderLists() {
     selectedLists = [];
     unionBtn.style.display = "none";
     deleteBtn.style.display = "none";
+    exportBtn.style.display = "none";
     if (lists.length === 0) {
         listsDiv.innerHTML = `<h3 id="no-lists">There are no lists</h3>`;
         return;
@@ -495,4 +508,47 @@ function listsUnion(lists) {
         newList = new List("Union", wordsUnion(newList.words, lists[i].words));
     }
     return newList;
+}
+function exportListWords(selectedLists) {
+    const selectedListsWords = [];
+    selectedLists.forEach((e) => {
+        selectedListsWords.push(lists[e]);
+    });
+    const jsonData = JSON.stringify(selectedListsWords);
+    const blob = new Blob([jsonData], { type: "application/json" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "lists.json";
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+}
+function importListWords(event) {
+    const target = event.target;
+    const file = target.files?.[0];
+    if (!file) {
+        return;
+    }
+    const reader = new FileReader();
+    reader.onload = function (event) {
+        try {
+            const jsonData = event.target?.result;
+            const importedLists = JSON.parse(jsonData);
+            // Add imported lists to existing lists
+            importedLists.forEach((importedList) => {
+                lists.push(new List(importedList.name, importedList.words));
+            });
+            renderLists();
+            location.href = "#lists-container";
+            // Reset the file input
+            target.value = "";
+        }
+        catch (error) {
+            console.error("Error parsing JSON file:", error);
+            alert("Error: Invalid JSON file format");
+        }
+    };
+    reader.readAsText(file);
 }
