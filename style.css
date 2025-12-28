@@ -92,25 +92,6 @@ button{
     font-size: 23px;
 }
 
-#import{
-	display: none;
-}
-
-#import-label{
-	font-size: 23px;
-	background-color: var(--color2);
-	color: white;
-	padding: 7px 15px;
-	border-radius: 5px;
-	cursor: pointer;
-	border: 0;
-}
-
-.create-buttons{
-	display: flex;
-	gap: 10px;
-}
-
 #lists{
     display: flex;
     flex-direction: column;
@@ -429,13 +410,6 @@ h3{
     display: none;
     background-color: var(--color3);
 }
-
-#export {
-  font-size: 23px;
-  display: none;
-  background-color: var(--color1);
-}
-
 
 #select-buttons{
     display: flex;
