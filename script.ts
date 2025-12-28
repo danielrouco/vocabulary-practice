@@ -1,6 +1,7 @@
 const createListBtn = document.getElementById("create-list")!;
 const nameInput = document.getElementById("name-input")! as HTMLInputElement;
 const pasteInput = document.getElementById("paste-input")! as HTMLInputElement;
+const formatError = document.getElementById("format-error")!;
 const home = document.getElementById("home")!;
 const modeSelection = document.getElementById("mode-selection")!;
 const listsDiv = document.getElementById("lists")!;
@@ -29,6 +30,9 @@ const areYouSure = document.getElementById("are-you-sure")!;
 const importBtn = document.getElementById("import")!;
 const importLabelBtn = document.getElementById("import-label")!;
 const exportBtn = document.getElementById("export")!;
+const exportallBtn = document.getElementById("export-all");
+const importallBtn = document.getElementById("import-all");
+const importallFileBtn = document.getElementById("import-file");
 
 
 let correctAnswer: string;
@@ -59,12 +63,18 @@ class List{
     }
 }
 
+class Answer {
+    ans: string;
+    constructor (ans: string) {
+        this.ans = ans;
+    }
+}
 class Word{
     word: string;
-    answer: string;
-    constructor(word: string, answer: string){
+    answers: Answer[];
+    constructor(word: string, answers: Answer[]){
         this.word = word;
-        this.answer = answer;
+        this.answers = answers;
     }
 }
 
@@ -81,7 +91,32 @@ renderLists();
 
 
 createListBtn.addEventListener("click", function(){
-    lists.push(new List(nameInput.value, stringToWords(pasteInput.value)));
+    // Hide any previous error messages
+    formatError.style.display = "none";
+    
+    // Validate that name is not empty
+    if (!nameInput.value.trim()) {
+        formatError.textContent = "Please enter a name for your list.";
+        formatError.style.display = "block";
+        return;
+    }
+    
+    // Validate that input is not empty
+    if (!pasteInput.value.trim()) {
+        formatError.textContent = "List is empty. Please enter words according to the example format.";
+        formatError.style.display = "block";
+        return;
+    }
+    
+    const words = stringToWords(pasteInput.value);
+    
+    if (words.length === 0) {
+        formatError.textContent = "Incorrect Format. Example: can: poder, get: obtener / llegar / conseguir";
+        formatError.style.display = "block";
+        return;
+    }
+    
+    lists.push(new List(nameInput.value, words));
 
     articlePasteTitle.innerHTML = "Create a list with your vocabulary";
     createListBtn.innerHTML = "Create list";
@@ -232,7 +267,22 @@ document.addEventListener("keydown", function(e){
         if(isCorrected){
             next();
         }else{
-            renderCorrection(answerInput.value === correctAnswer);
+            const userInput = answerInput.value.trim().toLowerCase();
+            const currentWord = practising.list!.words[practising.questionIndex-1];
+            let isOk = false;
+
+            if (practising.list!.isReversed) {
+                isOk = (userInput === currentWord.word.toLowerCase());
+            } else {
+                const answersArray = Array.isArray(currentWord.answers) ? currentWord.answers : [{ans: currentWord.answers}];
+
+                isOk = answersArray.some(a => {
+                    const text = (typeof a === 'string') ? a : a.ans;
+                    return text.trim().toLowerCase() === userInput;
+                })
+            }
+
+            renderCorrection(isOk);
         }
     }
 })
@@ -250,6 +300,49 @@ errorsBtn.addEventListener("click", function(){
     goHome();
 })
 
+exportallBtn.addEventListener("click", function(){
+    if (!lists) {
+        alert("No Lists to export.");
+        return;
+    }
+
+    const jsonfiles = JSON.stringify(lists);
+    const blob = new Blob([jsonfiles], {type: "application/json"});
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "vocabulary-practice-data.json";
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+})
+
+importallBtn.addEventListener("click", function() {
+    importallFileBtn.click();
+})
+
+importallFileBtn.addEventListener("change", function(e) {
+    const file = (e.target as HTMLInputElement).files?.[0];
+
+    const reader = new FileReader();
+    reader.onload = function() {
+        try {
+            const listtext = reader.result as string;
+            const importedlists = JSON.parse(listtext) as List[];
+
+            if (!Array.isArray(importedlists)) {
+                throw new Error("Invalid format");
+            }
+
+            lists = importedlists;
+            renderLists();
+        } catch (err) {
+            alert("Invalid format, please use a JSON file");
+        }
+    }
+    reader.readAsText(file);
+})
 
 //#region FUNCTIONS
 
@@ -288,8 +381,17 @@ function renderLists(): void{
 
 
 function renderQuestion(wordObject: Word): void{
-    word.innerHTML = wordObject.word;
-    correctAnswer = wordObject.answer;
+    const isReversed = practising.list!.isReversed;
+    const allTranslations = wordObject.answers.map(a => a.ans).join(" / ");
+
+    if (isReversed) {
+        word.innerHTML = allTranslations;
+        correctAnswer = wordObject.word;
+    } else {
+        word.innerHTML = wordObject.word;
+        correctAnswer = allTranslations;
+    }
+
     isCorrected = false;
 
     correct.style.display = "none";
@@ -308,15 +410,17 @@ function renderCorrection(isCorrect: boolean): void{
     answerInput.value = "";
     isCorrected = true;
 
+    const current = practising.list!.words[practising.questionIndex - 1];
+    const displayQuestion = practising.list!.isReversed ? current.answers.map(a => a.ans).join(" / ") : current.word;
     if(isCorrect){
         correct.style.display = "flex";
-        correctAnswers.words.push(practising.list!.words[practising.questionIndex - 1]);
+        correctAnswers.words.push(current);
     }else{
         incorrect.style.display = "flex";
         incorrect.innerHTML = `<div>
-        No!<br>The answer for <span class="black">${practising.list!.words[practising.questionIndex - 1].word}</span> was: <span class="green">${correctAnswer}</span>
+        No!<br>The answer for <span class="black">${displayQuestion}</span> was: <span class="green">${correctAnswer}</span>
         </div>`;
-        incorrectAnswers.words.push(practising.list!.words[practising.questionIndex - 1]);
+        incorrectAnswers.words.push(current);
     }
 }
 
@@ -324,11 +428,11 @@ function renderCorrection(isCorrect: boolean): void{
 function reverseList(listToReverse: List): List{
     let list = structuredClone(listToReverse);
 
-    for(let i = 0; i < list.words.length; i++){
+    /** for(let i = 0; i < list.words.length; i++){
         let exchange = list.words[i].word;
         list.words[i].word = list.words[i].answer;
         list.words[i].answer = exchange;
-    }
+    } **/
 
     list.isReversed = true;
 
@@ -391,21 +495,23 @@ function renderResults(): void{
 
 
 function stringToWords(string: string): Word[]{
-    let array: string[] = string.split(",");
-    let transitionArray: string[][] = new Array(array.length);
-    let words: Word[] = new Array(array.length);
+    if (!string.trim()) return [];
+    return string.split(",").map(pair => {
+        const [wordPart, answersPart] = pair.split(":");
+        if (!answersPart) return null;
 
-    for(let i = 0; i < array.length; i++){
-        transitionArray[i] = array[i].split(":");
-        words[i] = new Word(transitionArray[i][0].trim(), transitionArray[i][1].trim()) as Word;
-    }
+        const answerObjects = answersPart.split("/")
+              .map(a => new Answer(a.trim()))
+              .filter(a => a.ans !== "");
 
-    return words;
+        return new Word(wordPart.trim(), answerObjects);
+    }).filter(w => w !== null) as Word[];
+
 }
 
 
 function wordsToString(words: Word[]): string{
-    let string = "";
+    /**let string = "";
 
     for(let i = 0; i < words.length; i++){
         string += `${words[i].word}: ${words[i].answer}`;
@@ -415,7 +521,11 @@ function wordsToString(words: Word[]): string{
         }
     }
 
-    return string;
+    return string; **/
+    return words.map(w => {
+        const answerString = w.answers.map(a => a.ans).join(" / ");
+        return `${w.word}: ${answerString}`;
+    }).join(", ");
 }
 
 
@@ -471,7 +581,7 @@ function graph(correctHistory: number[], nQuestions: number): void{
 }
 
 function wordEquals(first: Word, second: Word): boolean{
-    return first.word == second.word && first.answer == second.answer;
+    return first.word == second.word && JSON.stringify(first.answers.sort()) === JSON.stringify(second.answers.sort());
 }
 
 function arrayIncludesWord(array: Word[], w: Word): boolean{
@@ -498,7 +608,7 @@ function wordsUnion(first: Word[], second: Word[]): Word[]{
 function listsUnion(lists: List[]): List{
     let newList = lists[0];
     for(let i = 1; i < lists.length; i++){
-        newList = new List("Union", wordsUnion(newList.words, lists[1].words));
+        newList = new List("Union", wordsUnion(newList.words, lists[i].words));
     }
     return newList;
 }

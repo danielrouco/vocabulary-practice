@@ -11,7 +11,7 @@
 *{
     margin: 0px;
     padding: 0px;
-    font-family: calibri;
+    font-family: Calibri, Arial, sans-serif;
 }
 
 html{
@@ -66,6 +66,17 @@ article{
 
 #paste-input{
     width: 500px;
+}
+
+.error-message{
+    color: var(--color3);
+    background-color: rgba(176, 76, 76, 0.1);
+    padding: 10px 15px;
+    border-radius: 5px;
+    border-left: 4px solid var(--color3);
+    font-size: 16px;
+    max-width: 500px;
+    text-align: left;
 }
 
 button{
@@ -282,6 +293,24 @@ h3{
     align-items: center;
 }
 
+#impexp-buttons{
+    position: fixed;
+    left: 20px;
+    bottom: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+#export-all{
+    background-color: cadetblue;
+    font-size: 16px;
+}
+
+#import-all{
+    background-color: goldenrod;
+    font-size: 16px;
+}
 
 .data{
     display: flex;

@@ -3,7 +3,10 @@ A simple and intuitive web app to enhance your vocabulary. Create custom word li
 ## Usage
 ### Create a list
 After introducing the name of the list introduce the list of words with this format:
-> word<sub>1</sub>: translation<sub>1</sub>, word<sub>2</sub>: translation<sub>2</sub>, ... , word<sub>n</sub>: translation<sub>n</sub>
+> word<sub>1</sub>: translations<sub>1</sub>, word<sub>2</sub>: translations<sub>2</sub>, ... , word<sub>n</sub>: translations<sub>n</sub>
+
+Where translations<sub>i</sub> is a '/' separated list of translations :
+> translation<sub>i.1</sub> / translation<sub>i.2</sub> / ... / translation<sub>i.n</sub>
 ### Practice a list
 In the practice mode  press `Enter` to submit an answer and press `Enter` again to go to the next question.
 ### Create a list of your Errors
@@ -13,21 +16,17 @@ If you press the `Edit` button of a list you will be able to edit the name of th
 > [!WARNING]
 > If you edit a list you will lose all the values of the history graph because I assume that when a list is edited any values or scores about the old list don't make sense for the new list. **This will occur even if you change only the name**.
 ### Data storage
-> [!CAUTION]
-> All the data (words lists and values for the history graph) is stored in the **Local storage** of the browser so it is highly recommended to have a backup of your lists.
+This web is serverless so you are responsible of storing your data locally. To do that click on the `Export all lists` button. Like that all the data including lists and the data necessary to draw a history graph will be downloaded.
 
-> [!TIP]
-> If you want to preserve also the values necessary to draw a history graph and a more convenient way to safely store your data: you can search for the `data` key (all the data is stored here) and copy all the content to save it locally. So that if the **Local storage** has been deleted you can add the `data` key with the content that you copied and you will have again all your data.
-> To acces local storage easily:
-> 1. Open developer options (`Right click` and `Inspect`)
-> 2. Go to `Application` and `Local storage`
-> 3. There you will see a table with the `data` key. There you can copy the content or paste the content that you copied before.
-> 4. If you refresh all the data should be updated
+To import back the data click on the `Import lists` button and select the file that you downloaded. However the data is also stored on the **Local storage** of the browser so probably the data will be there without having to import it.
+> [!CAUTION]
+> You should not rely only on localStorage because it can be deleted because of multiple reasons. Instead, you should export always your data when you finish practising
 
 ## Share lists
 If you want to share one or multiple lists with other people you can select those lists and export them so that other people can import them without losing their own lists.
 > [!CAUTION]
 If you want to share you shouldn't use the buttons that are placed on the bottom right corner (these buttons are made to export and import all your data overwriting all the lists that you have and importing also the data necessary to draw the history graph of each list).
+
 
 ## Screenshots
 ![Preview1](https://github.com/robda20188/vocabulary-practice/assets/98611646/ec5e508b-5817-46b4-bbde-e4a50c009626)
