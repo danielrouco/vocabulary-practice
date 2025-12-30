@@ -343,7 +343,6 @@ importallFileBtn.addEventListener("change", function(e) {
             }
 
             lists = importedlists;
-            hasUnsavedChanges = true;
             renderLists();
         } catch (err) {
             alert("Invalid format, please use a JSON file");
