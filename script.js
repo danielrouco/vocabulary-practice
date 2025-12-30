@@ -1,3 +1,4 @@
+let hasUnsavedChanges = false;
 const createListBtn = document.getElementById("create-list");
 const nameInput = document.getElementById("name-input");
 const pasteInput = document.getElementById("paste-input");
@@ -101,6 +102,7 @@ createListBtn.addEventListener("click", function () {
         return;
     }
     lists.push(new List(nameInput.value, words));
+    hasUnsavedChanges = true;
     articlePasteTitle.innerHTML = "Create a list with your vocabulary";
     createListBtn.innerHTML = "Create list";
     importLabelBtn.style.display = "block";
@@ -126,6 +128,7 @@ listsDiv.addEventListener("click", function (e) {
         nameInput.value = lists[index].name;
         pasteInput.value = wordsToString(lists[index].words);
         lists.splice(index, 1);
+        hasUnsavedChanges = true;
         articlePasteTitle.innerHTML = "Edit the list";
         createListBtn.innerHTML = "Edit";
         importLabelBtn.style.display = "none";
@@ -179,6 +182,7 @@ listsDiv.addEventListener("click", function (e) {
         let duplicate = structuredClone(lists[index]);
         duplicate.name = `Duplicate of ${duplicate.name}`;
         lists.push(duplicate);
+        hasUnsavedChanges = true;
         renderLists();
     }
 });
@@ -188,6 +192,7 @@ unionBtn.addEventListener("click", function () {
         listToUnion.push(lists[e]);
     });
     lists.push(listsUnion(listToUnion));
+    hasUnsavedChanges = true;
     renderLists();
 });
 deleteBtn.addEventListener("click", function () {
@@ -206,6 +211,7 @@ areYouSure.addEventListener("click", function (e) {
         for (let i = selectedLists.length - 1; i >= 0; i--) {
             lists.splice(selectedLists[i], 1);
         }
+        hasUnsavedChanges = true;
         areYouSure.style.display = "none";
         renderLists();
     }
@@ -278,6 +284,7 @@ exportallBtn.addEventListener("click", function () {
     a.click();
     document.body.removeChild(a);
     URL.revokeObjectURL(url);
+    markExported();
 });
 importallBtn.addEventListener("click", function () {
     importallFileBtn.click();
@@ -293,6 +300,7 @@ importallFileBtn.addEventListener("change", function (e) {
                 throw new Error("Invalid format");
             }
             lists = importedlists;
+            hasUnsavedChanges = true;
             renderLists();
         }
         catch (err) {
@@ -404,6 +412,7 @@ function renderResults() {
         errorsBtn.style.display = "block";
     }
     lists[practising.listIndex].correctHistory.push(correctAnswers.words.length);
+    hasUnsavedChanges = true;
     if (lists[practising.listIndex].correctHistory.length > 1) {
     }
     correctAnswersDiv.innerHTML = String(correctAnswers.words.length);
@@ -509,6 +518,9 @@ function listsUnion(lists) {
     }
     return newList;
 }
+function markExported() {
+    hasUnsavedChanges = false;
+}
 function exportListWords(selectedLists) {
     const selectedListsWords = [];
     selectedLists.forEach((e) => {
@@ -540,6 +552,7 @@ function importListWords(event) {
             importedLists.forEach((importedList) => {
                 lists.push(new List(importedList.name, importedList.words));
             });
+            hasUnsavedChanges = true;
             renderLists();
             location.href = "#lists-container";
             // Reset the file input
@@ -552,3 +565,8 @@ function importListWords(event) {
     };
     reader.readAsText(file);
 }
+window.addEventListener("beforeunload", (e) => {
+    if (hasUnsavedChanges) {
+        e.preventDefault();
+    }
+});
