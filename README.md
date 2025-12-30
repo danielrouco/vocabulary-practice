@@ -22,6 +22,12 @@ To import back the data click on the `Import lists` button and select the file t
 > [!CAUTION]
 > You should not rely only on localStorage because it can be deleted because of multiple reasons. Instead, you should export always your data when you finish practising
 
+## Share lists
+If you want to share one or multiple lists with other people you can select those lists and export them so that other people can import them without losing their own lists.
+> [!CAUTION]
+If you want to share you shouldn't use the buttons that are placed on the bottom right corner (these buttons are made to export and import all your data overwriting all the lists that you have and importing also the data necessary to draw the history graph of each list).
+
+
 ## Screenshots
 ![Preview1](https://github.com/robda20188/vocabulary-practice/assets/98611646/ec5e508b-5817-46b4-bbde-e4a50c009626)
 

@@ -1,3 +1,4 @@
+let hasUnsavedChanges = false;
 const createListBtn = document.getElementById("create-list")!;
 const nameInput = document.getElementById("name-input")! as HTMLInputElement;
 const pasteInput = document.getElementById("paste-input")! as HTMLInputElement;
@@ -27,6 +28,9 @@ const closeGraph = document.getElementById("close-graph")!;
 const unionBtn = document.getElementById("union")!;
 const deleteBtn = document.getElementById("delete")!;
 const areYouSure = document.getElementById("are-you-sure")!;
+const importBtn = document.getElementById("import")!;
+const importLabelBtn = document.getElementById("import-label")!;
+const exportBtn = document.getElementById("export")!;
 const exportallBtn = document.getElementById("export-all");
 const importallBtn = document.getElementById("import-all");
 const importallFileBtn = document.getElementById("import-file");
@@ -116,9 +120,11 @@ createListBtn.addEventListener("click", function(){
     }
     
     lists.push(new List(nameInput.value, words));
+    hasUnsavedChanges = true;
 
     articlePasteTitle.innerHTML = "Create a list with your vocabulary";
     createListBtn.innerHTML = "Create list";
+    importLabelBtn.style.display = "block";
 
     pasteInput.value = "";
     nameInput.value = "";
@@ -147,8 +153,10 @@ listsDiv.addEventListener("click", function(e){
         nameInput.value = lists[index].name;
         pasteInput.value = wordsToString(lists[index].words);
         lists.splice(index, 1);
+        hasUnsavedChanges = true;
         articlePasteTitle.innerHTML = "Edit the list";
         createListBtn.innerHTML = "Edit";
+        importLabelBtn.style.display = "none";
         location.href = "#paste-input-container";
         renderLists();
     }else if(id.includes("graph-")){
@@ -181,8 +189,10 @@ listsDiv.addEventListener("click", function(e){
 
         if(selectedLists.length >= 1){
             deleteBtn.style.display = "block";
+            exportBtn.style.display = "block";
         }else{
             deleteBtn.style.display = "none"
+            exportBtn.style.display = "none";
         }
 
         if(selectedLists.length >= 2){
@@ -194,6 +204,7 @@ listsDiv.addEventListener("click", function(e){
         let duplicate = structuredClone(lists[index]);
         duplicate.name = `Duplicate of ${duplicate.name}`
         lists.push(duplicate);
+        hasUnsavedChanges = true;
         renderLists();
     }
 })
@@ -204,6 +215,7 @@ unionBtn.addEventListener("click", function(){
         listToUnion.push(lists[e]);
     })
     lists.push(listsUnion(listToUnion));
+    hasUnsavedChanges = true;
     renderLists();
 })
 
@@ -212,6 +224,13 @@ deleteBtn.addEventListener("click", function(){
     location.href = "#are-you-sure"
 })
 
+exportBtn.addEventListener("click", function () {
+  console.log("Export button clicked, selectedLists:", selectedLists);
+  exportListWords(selectedLists);
+});
+
+importBtn.addEventListener("change", importListWords);
+
 areYouSure.addEventListener("click", function(e){
    let id = (e.target as HTMLElement).id;
    if(id == "yes"){
@@ -219,6 +238,7 @@ areYouSure.addEventListener("click", function(e){
         for(let i = selectedLists.length - 1; i >= 0; i--){
             lists.splice(selectedLists[i], 1);
         }
+        hasUnsavedChanges = true;
         areYouSure.style.display = "none";
         renderLists();
    }else if(id == "no"){
@@ -304,6 +324,7 @@ exportallBtn.addEventListener("click", function(){
     a.click();
     document.body.removeChild(a);
     URL.revokeObjectURL(url);
+    markExported();
 })
 
 importallBtn.addEventListener("click", function() {
@@ -348,6 +369,7 @@ function renderLists(): void{
     selectedLists = [];
     unionBtn.style.display = "none";
     deleteBtn.style.display = "none";
+    exportBtn.style.display = "none";
 
     if(lists.length === 0){
         listsDiv.innerHTML = `<h3 id="no-lists">There are no lists</h3>`;
@@ -472,6 +494,7 @@ function renderResults(): void{
     }
 
     lists[practising.listIndex!].correctHistory.push(correctAnswers.words.length);
+    hasUnsavedChanges = true;
 
     if(lists[practising.listIndex!].correctHistory.length > 1){
 
@@ -609,3 +632,67 @@ function listsUnion(lists: List[]): List{
     }
     return newList;
 }
+
+function markExported(): void {
+    hasUnsavedChanges = false;
+}
+
+function exportListWords(selectedLists: number[]): void {
+  const selectedListsWords: List[] = [];
+
+  selectedLists.forEach((e) => {
+    selectedListsWords.push(lists[e]);
+  });
+
+  const jsonData = JSON.stringify(selectedListsWords);
+  const blob = new Blob([jsonData], { type: "application/json" });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = "lists.json";
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+}
+
+function importListWords(event: Event): void {
+	const target = event.target as HTMLInputElement;
+	const file = target.files?.[0];
+
+	if (!file) {
+		return;
+	}
+
+
+	const reader = new FileReader();
+
+	reader.onload = function (event) {
+		try {
+			const jsonData = event.target?.result as string;
+			const importedLists: List[] = JSON.parse(jsonData);
+
+			// Add imported lists to existing lists
+			importedLists.forEach((importedList) => {
+				lists.push(new List(importedList.name, importedList.words));
+			});
+            hasUnsavedChanges = true;
+			renderLists();
+			location.href = "#lists-container";
+
+			// Reset the file input
+			target.value = "";
+		} catch (error) {
+			console.error("Error parsing JSON file:", error);
+			alert("Error: Invalid JSON file format");
+		}
+	};
+
+	reader.readAsText(file);
+}
+
+window.addEventListener("beforeunload", (e: BeforeUnloadEvent) => {
+    if (hasUnsavedChanges) {
+        e.preventDefault();
+    }
+});

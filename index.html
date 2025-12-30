@@ -21,7 +21,11 @@
             <input type="text" name="name-input" id="name-input" placeholder="Name of the list">
             <input type="text" name="paste-input" id="paste-input" placeholder="Example: can: poder, get: obtener / llegar / conseguir">
             <div id="format-error" class="error-message" style="display: none;"></div>
-            <button id="create-list">Create list</button>
+           <div class="create-buttons">
+                <button id="create-list">Create list</button>
+                <label for="import" id="import-label">Import</label>
+                <input type="file" id="import" accept=".json">
+            </div>
         </article>
 
         <article id="history-article">
@@ -38,6 +42,7 @@
             <div id="select-buttons">
                 <button id="union">Union</button>
                 <button id="delete">Delete</button>
+                <button id="export">Export</button>
             </div>
         </article>
 
