@@ -199,7 +199,7 @@ h3{
     font-size: 50px;
 }
 
-#correct, #incorrect{
+#feedback{
     height: 100vh;
     color: white;
     font-size: 50px;
@@ -207,13 +207,14 @@ h3{
     align-items: center;
     display: none;
     text-align: center;
+    flex-direction: column;
 }
 
-#correct{
+#feedback.correct{
     background-color: var(--color2);
 }
 
-#incorrect{
+#feedback.incorrect{
     background-color: var(--color3);
 }
 
@@ -443,4 +444,16 @@ h3{
 
 .duplicate-button{
     background-color: var(--color7);
+}
+
+#next-q-btn {
+    display: none;
+    gap: 20px;
+    padding: 7px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    border: 0;
+    background-color: #73999ec1;
+    align-items: center;
+    font-size: 25px;
 }

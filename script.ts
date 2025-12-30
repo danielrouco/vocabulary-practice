@@ -30,7 +30,9 @@ const areYouSure = document.getElementById("are-you-sure")!;
 const exportallBtn = document.getElementById("export-all");
 const importallBtn = document.getElementById("import-all");
 const importallFileBtn = document.getElementById("import-file");
-
+const nextQBtn = document.getElementById("next-q-btn");
+const feedback = document.getElementById("feedback");
+const feedbackContent = document.getElementById("feedback-content");
 
 let correctAnswer: string;
 let correctAnswers: List;
@@ -330,6 +332,12 @@ importallFileBtn.addEventListener("change", function(e) {
     reader.readAsText(file);
 })
 
+nextQBtn.addEventListener("click", () => {
+    if (!inPractice) return;
+    if (!isCorrected) return;
+    next();
+})
+
 //#region FUNCTIONS
 
 
@@ -379,8 +387,8 @@ function renderQuestion(wordObject: Word): void{
 
     isCorrected = false;
 
-    correct.style.display = "none";
-    incorrect.style.display = "none";
+    nextQBtn.style.display="none";
+    feedback.style.display = "none";
     questionContainer.style.display = "flex";
     bar.style.width = `${(practising.questionIndex / practising.list!.words.length) * 100}vw`;
 
@@ -398,15 +406,17 @@ function renderCorrection(isCorrect: boolean): void{
     const current = practising.list!.words[practising.questionIndex - 1];
     const displayQuestion = practising.list!.isReversed ? current.answers.map(a => a.ans).join(" / ") : current.word;
     if(isCorrect){
-        correct.style.display = "flex";
+        feedbackContent.innerHTML = "Very Good";
         correctAnswers.words.push(current);
     }else{
-        incorrect.style.display = "flex";
-        incorrect.innerHTML = `<div>
+        feedbackContent.innerHTML = `<div>
         No!<br>The answer for <span class="black">${displayQuestion}</span> was: <span class="green">${correctAnswer}</span>
         </div>`;
         incorrectAnswers.words.push(current);
     }
+    feedback.className = isCorrect ? "correct" : "incorrect";
+    feedback.style.display="flex";
+    nextQBtn.style.display="flex";
 }
 
 
@@ -438,6 +448,8 @@ function goHome(): void{
 
 
 function next(): void{
+    feedback.style.display = "none";
+    nextQBtn.style.display = "none";
     if(practising.questionIndex >= practising.list!.words.length){
         renderResults();
         return;
@@ -448,8 +460,8 @@ function next(): void{
 
 function renderResults(): void{
     result.style.display = "flex";
-    correct.style.display = "none";
-    incorrect.style.display = "none";
+    feedback.style.display = "none";
+    nextQBtn.style.display = "none";
 
     inPractice = false;
 
