@@ -624,7 +624,6 @@ function listsUnion(lists: List[]): List{
 
 function markExported(): void {
     hasUnsavedChanges = false;
-    localStorage.setItem("lastExportTime", new Date().toISOString());
 }
 
 function exportListWords(selectedLists: number[]): void {
@@ -644,7 +643,6 @@ function exportListWords(selectedLists: number[]): void {
   a.click();
   document.body.removeChild(a);
   URL.revokeObjectURL(url);
-  markExported();
 }
 
 function importListWords(event: Event): void {
