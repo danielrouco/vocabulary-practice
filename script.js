@@ -300,7 +300,6 @@ importallFileBtn.addEventListener("change", function (e) {
                 throw new Error("Invalid format");
             }
             lists = importedlists;
-            hasUnsavedChanges = true;
             renderLists();
         }
         catch (err) {
