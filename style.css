@@ -227,6 +227,7 @@ h3{
     display: none;
     text-align: center;
     flex-direction: column;
+    gap: 3px;
 }
 
 #feedback.correct{
@@ -482,4 +483,158 @@ h3{
     background-color: #73999ec1;
     align-items: center;
     font-size: 25px;
+}
+
+@media (max-width: 768px) {
+    #home {
+        padding: 15px 10px;
+        gap: 25px;
+    }
+    h1{
+        font-size: 32px;
+    }
+    .big-letters {
+        font-size: 55px;
+    }
+
+    article {
+        padding: 20px;
+        max-width: 95vw;
+    }
+
+    #paste-input, .list, #no-lists, #history-article {
+        width: 100%;
+        max-width: 100%;
+        box-sizing: border-box;
+    }
+
+    .list {
+        flex-direction: column;
+        text-align: center;
+        padding: 15px;
+    }
+
+    .list-name {
+        width: 100%;
+        margin-bottom: 10px;
+        font-size: 18px;
+    }
+
+    .buttons {
+        width: 100%;
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+
+    button {
+        font-size: 16px;
+        padding: 12px 20px;
+        min-width: 70px;
+    }
+
+    #create-list, #union, #delete, #yes, #no {
+        font-size: 18px;
+    }
+
+    #impexp-buttons {
+        left: 10px;
+        bottom: 10px;
+        flex-direction: row;
+        gap: 5px;
+    }
+
+    #export-all, #import-all {
+        font-size: 14px;
+        padding: 10px 12px;
+    }
+
+    #select-buttons {
+        flex-wrap: wrap;
+        gap: 8px;
+    }
+
+    #question-container {
+        min-height: 100vh;
+    }
+
+    #word, #answer {
+        min-height: 35vh;
+        padding: 15px;
+    }
+
+    #word {
+        font-size: 2.2rem;
+    }
+
+    #answer-input {
+        font-size: 1.8rem;
+        width: 95%;
+    }
+
+    #bar {
+        height: 8px;
+    }
+
+    #feedback {
+        font-size: 2.2rem;
+    }
+}
+
+@media (max-width: 480px) {
+    h1 {
+        font-size: 28px;
+    }
+    .big-letters {
+        font-size: 45px;
+    }
+    input {
+        font-size: 18px;
+        padding: 12px;
+    }
+    #question-container, #feedback {
+        font-size: 35px;
+    }
+    #answer-input {
+        font-size: 1.4rem;
+        text-align: center;
+    }
+    #word {
+        font-size: 1.8rem;
+    }
+    .data.incorrect-correct-data {
+        width: 140px;
+        height: 140px;
+    }
+    #accuracy-container {
+        width: 280px;
+        height: 280px;
+    }
+    #accuracy {
+        font-size: 100px;
+    }
+    #correct-answers, #incorrect-answers {
+        font-size: 70px;
+    }
+    #result-title {
+        font-size: 45px;
+    }
+    #history-graph {
+        width: 100%;
+        height: 300px;
+    }
+    #feedback {
+        font-size: 1.8rem;
+    }
+}
+
+@media (max-height: 500px) and (orientation: landscape) {
+    #question-container, #feedback {
+        font-size: 30px;
+    }
+    #word {
+        font-size: 40px;
+    }
+    #answer-input {
+        font-size: 30px;
+    }
 }
