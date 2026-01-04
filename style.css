@@ -156,6 +156,7 @@ h3{
     width: 100vw;
     display: flex;
     justify-content: center;
+    text-align: center;
     align-items: center;
     font-size: 40px;
     cursor: pointer;
@@ -179,6 +180,7 @@ h3{
 
 #list-title{
     height: 75px;
+    width: 100%;
     padding-left: 50px;
     background-color: var(--color2);
     color: white;
@@ -196,6 +198,8 @@ h3{
     display: flex;
     justify-content: center;
     align-items: center;
+    margin: 0;
+    padding: 0;
 }
 
 #word{
@@ -216,6 +220,7 @@ h3{
 
 #answer-input{
     font-size: 50px;
+    align-self: center;
 }
 
 #feedback{
@@ -242,6 +247,10 @@ h3{
     display: none;
     flex-direction: column;
     align-items: center;
+    padding: 20px;
+    box-sizing: border-box;
+    padding-left: 15px;
+    padding-right: 15px;
     padding-top: 40px;
     padding-bottom: 40px;
     gap: 50px;
@@ -286,6 +295,10 @@ h3{
     display: flex;
     justify-content: center;
     gap: 20px;
+    max-width: 600px;
+    margin: 0 auto;
+    width: 100%;
+    box-sizing: border-box;
 }
 
 #accuracy{
@@ -568,7 +581,8 @@ h3{
 
     #answer-input {
         font-size: 1.8rem;
-        width: 95%;
+        width: 55%;
+        padding-right: 70px;
     }
 
     #bar {
@@ -577,6 +591,81 @@ h3{
 
     #feedback {
         font-size: 2.2rem;
+    }
+    html, body {
+        overflow-x: hidden;
+    }
+    #accuracy {
+        font-size: clamp(28px, 7vw, 38px);
+    }
+    #accuracy-container{
+        width: 90px;
+        flex: 1.5;
+        height: min(85vw, 330px);
+    }
+    #correct-incorrect-container{
+        flex: 1;
+        display: flex;
+        width: 180px;
+        gap: 10px;
+        flex-direction: column;
+    }
+    .data {
+        flex-shrink: 0;
+    }
+    .incorrect-correct-data {
+        width: min(45vw, 160px);
+        height: min(45vw, 160px);
+        flex-shrink: 0;
+    }
+    #history-graph {
+        width: clamp(280px, 90vw, 500px);
+        margin-top: 15px;
+        margin-bottom: 5px;
+        font-size: clamp(14px, 4vw, 18px);
+        margin: 20px auto 10px;
+        height: clamp(250px, 60vw, 350px);
+        max-width: 400px;
+    }
+    #history-graph .data {
+        padding: 12px;
+    }
+    #history-graph .data-title {
+        margin-bottom: 3px;
+        font-size: 14px;
+        line-height: 1.1;
+    }
+    #canvas-container{
+        width: 100%;
+        height: auto;
+        overflow: hidden;
+        position: relative;
+    }
+    #history-article {
+        width: 95%;
+        max-width: 610px;
+        height: auto;
+        margin: 0 auto;
+        overflow: hidden;
+    }
+    #history-canvas {
+        width: 100%;
+        justify-content: center;
+        align-items: center;
+    }
+    #count {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: nonwrap;
+        justify-content: center;
+        align-items: stretch;
+        width: 100%;
+        max-width: 600px;
+        gap: 15px;
+    }
+    #correct-answers, #incorrect-answers {
+        font-size: 28px;
+        line-height: 1;
     }
 }
 
@@ -601,40 +690,55 @@ h3{
     #word {
         font-size: 1.8rem;
     }
-    .data.incorrect-correct-data {
-        width: 140px;
-        height: 140px;
+    #accuracy {
+        font-size: clamp (40px, 15vw, 100px);
+        width: 100%;
+        text-align: center;
+        line-height: 1;
     }
     #accuracy-container {
-        width: 280px;
-        height: 280px;
+        width: 100%;
+        height: auto;
+        aspect-ratio: 1 / 1;
+        padding: 20px;
     }
-    #accuracy {
-        font-size: 100px;
+    #correct-incorrect-container {
+        gap: 8px;
     }
     #correct-answers, #incorrect-answers {
         font-size: 70px;
     }
     #result-title {
-        font-size: 45px;
+        font-size: 35px;
+        margin-bottom: 10px;
     }
     #history-graph {
-        width: 100%;
-        height: 300px;
+        width: 92vw;
+        height: clamp(200px, 55vw, 280px);
+        max-width: 320px;
     }
     #feedback {
         font-size: 1.8rem;
     }
-}
-
-@media (max-height: 500px) and (orientation: landscape) {
-    #question-container, #feedback {
-        font-size: 30px;
+    html, body {
+        overflow-x: hidden;
     }
-    #word {
-        font-size: 40px;
+    #history-article {
+        width: 95%;
+        max-width: 610px;
+        height: auto;
+        padding: 10px;
     }
-    #answer-input {
-        font-size: 30px;
+    #history-canvas {
+        padding: 5px;
+    }
+    canvas {
+        width: 100%;
+        height: auto;
+    }
+    #canvas-container {
+        width: 100%;
+        height: auto;
+        min-height: 200px;
     }
 }

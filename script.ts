@@ -165,6 +165,9 @@ listsDiv.addEventListener("click", function(e){
 
         if(lists[index].correctHistory.length > 1){
             historyCanvas.innerHTML = `<canvas id="graph" width="500px" height="240px"></canvas>`;
+            const canvas = document.getElementById("graph") as HTMLCanvasElement;
+            canvas.width: canvas.offsetWidth;
+            canvas.height: canvas.offsetHeight;
             graph(lists[index].correctHistory, lists[index].words.length);
         }else{
             historyCanvas.innerHTML = "There is not enough data to draw a graph";
@@ -507,6 +510,9 @@ function renderResults(): void{
 
     if(lists[practising.listIndex!].correctHistory.length > 1){
         canvasContainer.innerHTML = `<canvas id="graph" width="500px" height="240px"></canvas>`;
+        const canvas = document.getElementById("graph") as HTMLCanvasElement;
+        canvas.width = canvas.offsetWidth;
+        canvas.height = canvas.offsetHeight;
         graph(lists[practising.listIndex!].correctHistory, lists[practising.listIndex!].words.length);
     }
 
