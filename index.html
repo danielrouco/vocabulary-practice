@@ -4,24 +4,58 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Vocabulary practice</title>
+
+    <title>Vocabulary Practice – Learn, Test & Track Your Vocabulary</title>
+
+    <meta name="description" content="Vocabulary Practice is a simple web app to create vocabulary lists, practice words, track progress, and improve language learning through repetition.">
+    <meta name="robots" content="index, follow">
+
+    <!-- Open Graph / Social SEO -->
+    <meta property="og:title" content="Vocabulary Practice – Learn & Test Your Vocabulary">
+    <meta property="og:description" content="Create vocabulary lists, practice words, and track your learning progress easily.">
+    <meta property="og:type" content="website">
+    <meta property="og:image" content="./images/favicon.png">
+
     <link rel="icon" type="image/x-icon" href="./images/favicon.png">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
+
+<main>
     <div id="home">
         <header>
             <h1 id="title">
                 <span class="big-letters">V</span>ocabulary
-                <span class="big-letters">p</span>ractice</h1>
+                <span class="big-letters">p</span>ractice App
+            </h1>
         </header>
 
         <article id="paste-input-container">
-            <h2 id="article-paste-title">Create a list with your vocabulary</h2>
-            <input type="text" name="name-input" id="name-input" placeholder="Name of the list">
-            <input type="text" name="paste-input" id="paste-input" placeholder="Example: can: poder, get: obtener / llegar / conseguir">
-            <div id="format-error" class="error-message" style="display: none;"></div>
-           <div class="create-buttons">
+            <h2 id="article-paste-title">Create and Practice Your Vocabulary List</h2>
+
+            <input
+                type="text"
+                name="name-input"
+                id="name-input"
+                placeholder="Name of the list"
+                aria-label="Vocabulary list name">
+
+            <input
+                type="text"
+                name="paste-input"
+                id="paste-input"
+                placeholder="Example: can: poder, get: obtener / llegar / conseguir"
+                aria-label="Paste vocabulary words">
+
+            <div
+                id="format-error"
+                class="error-message"
+                style="display: none;"
+                role="alert"
+                aria-live="assertive">
+            </div>
+
+            <div class="create-buttons">
                 <button id="create-list">Create list</button>
                 <label for="import" id="import-label">Import</label>
                 <input type="file" id="import" accept=".json">
@@ -29,13 +63,13 @@
         </article>
 
         <article id="history-article">
-            <h2 id="history-title">History graph</h2>
+            <h2 id="history-title">Vocabulary Practice History Graph</h2>
             <div id="history-canvas">There is not enough data to draw a graph</div>
             <button id="close-graph">Close graph</button>
         </article>
 
         <article id="lists-container">
-            <h2>Your lists</h2>
+            <h2>Your Vocabulary Lists</h2>
             <div id="lists">
                 <h3 id="no-lists">There are no lists yet</h3>
             </div>
@@ -56,7 +90,7 @@
 
         <div id="impexp-buttons">
             <button id="export-all">Export all lists</button>
-            <button id="import-all"> Import lists</button>
+            <button id="import-all">Import lists</button>
             <input type="file" id="import-file" accept=".json" style="display:none">
         </div>
     </div>
@@ -71,7 +105,7 @@
         <div id="word-answer-container">
             <div id="word"></div>
             <div id="answer">
-                <input type="text" id="answer-input"></input>
+                <input type="text" id="answer-input" aria-label="Answer input">
             </div>
         </div>
         <div id="bar"></div>
@@ -83,7 +117,7 @@
     </div>
 
     <div id="result">
-        <h1 id="result-title">Results</h1>
+        <h1 id="result-title">Vocabulary Practice Results</h1>
         <div id="count">
             <div id="correct-incorrect-container">
                 <div class="data incorrect-correct-data">
@@ -100,22 +134,32 @@
                 <div id="accuracy"></div>
             </div>
         </div>
+
         <div id="history-graph" class="data">
             <div class="data-title">Correct answers history graph</div>
             <div id="canvas-container">
                 <p id="no-data">There is not enough data to draw a graph</p>
             </div>
         </div>
+
         <div id="buttons">
             <button id="home-btn">Go to the home page</button>
             <button id="errors-btn">Add errors lists to your lists</button>
         </div>
     </div>
+</main>
 
-	<a id="github" href="https://github.com/danielrouco/vocabulary-practice">
-		<img src="https://upload.wikimedia.org/wikipedia/commons/c/c2/GitHub_Invertocat_Logo.svg">
-	</a>
+<footer>
+    <a
+        id="github"
+        href="https://github.com/danielrouco/vocabulary-practice"
+        aria-label="Vocabulary Practice GitHub repository">
+        <img
+            src="https://upload.wikimedia.org/wikipedia/commons/c/c2/GitHub_Invertocat_Logo.svg"
+            alt="GitHub logo">
+    </a>
+</footer>
 
-    <script src="script.js"></script>
+<script src="script.js"></script>
 </body>
 </html>
