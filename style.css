@@ -232,7 +232,7 @@ h3{
     display: none;
     text-align: center;
     flex-direction: column;
-    gap: 3px;
+    gap: 30px;
 }
 
 #feedback.correct{
@@ -600,8 +600,9 @@ h3{
     }
     #accuracy-container{
         width: 90px;
-        flex: 1.5;
-        height: min(85vw, 330px);
+        flex: 1.2;
+        height: auto;
+        aspect-ratio: 1 / 1;
     }
     #correct-incorrect-container{
         flex: 1;
@@ -626,6 +627,7 @@ h3{
         margin: 20px auto 10px;
         height: clamp(250px, 60vw, 350px);
         max-width: 400px;
+        object-fit: contain;
     }
     #history-graph .data {
         padding: 12px;
@@ -637,21 +639,36 @@ h3{
     }
     #canvas-container{
         width: 100%;
-        height: auto;
-        overflow: hidden;
+        height: 250px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        overflow: visible;
         position: relative;
     }
     #history-article {
-        width: 95%;
+        display: flex;
+        width: 90%;
         max-width: 610px;
         height: auto;
-        margin: 0 auto;
-        overflow: hidden;
+        margin: 20px auto;
+        padding: 40px;
+        padding-left: 20px;
+        box-sizing: border-box;
+        overflow: visible;
     }
     #history-canvas {
         width: 100%;
         justify-content: center;
         align-items: center;
+        display: block;
+        object-fit: contain;
+    }
+    canvas {
+        width: 95%;
+        height: 100%;
+        display: block;
+        object-fit: contain;
     }
     #count {
         display: flex;
@@ -661,11 +678,16 @@ h3{
         align-items: stretch;
         width: 100%;
         max-width: 600px;
-        gap: 15px;
+        gap: 0px;
     }
     #correct-answers, #incorrect-answers {
         font-size: 28px;
         line-height: 1;
+    }
+    #graph {
+        border-bottom: 5px solid black;
+        border-left: 5px solid black;
+        box-sizing: border-box;
     }
 }
 
@@ -690,6 +712,14 @@ h3{
     #word {
         font-size: 1.8rem;
     }
+    #count {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: stretch;
+        width: 100%;
+        gap: 10px;
+        }
     #accuracy {
         font-size: clamp (40px, 15vw, 100px);
         width: 100%;
@@ -703,7 +733,7 @@ h3{
         padding: 20px;
     }
     #correct-incorrect-container {
-        gap: 8px;
+        gap: 10px;
     }
     #correct-answers, #incorrect-answers {
         font-size: 50px;
@@ -715,7 +745,6 @@ h3{
     #history-graph {
         width: 100%;
         height: auto;
-        max-width: 100%;
     }
     #feedback {
         font-size: 1.8rem;
@@ -724,15 +753,18 @@ h3{
         overflow-x: hidden;
     }
     #history-article {
-        width: 100%;
+        display: flex;
+        width: calc(100% - 30px);
         max-width: 100%;
         height: auto;
-        padding: 15px;
+        padding: 20px;
+        margin: auto;
         box-sizing: border-box;
     }
     #history-canvas, canvas {
-        width: 100%;
+        width: 90%;
         height: 100%;
+        display: block;
         object-fit: contain;
     }
     #canvas-container {
@@ -742,5 +774,9 @@ h3{
         justify-content: center;
         align-items: center;
         min-height: 200px;
+        padding-top: 5px;
+        padding-bottom: 20px;
+        padding-left: 10px;
+        overflow: scroll;
     }
 }
