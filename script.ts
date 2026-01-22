@@ -165,9 +165,6 @@ listsDiv.addEventListener("click", function(e){
 
         if(lists[index].correctHistory.length > 1){
             historyCanvas.innerHTML = `<canvas id="graph" width="500px" height="240px"></canvas>`;
-            const canvas = document.getElementById("graph") as HTMLCanvasElement;
-            canvas.width: canvas.offsetWidth;
-            canvas.height: canvas.offsetHeight;
             graph(lists[index].correctHistory, lists[index].words.length);
         }else{
             historyCanvas.innerHTML = "There is not enough data to draw a graph";
@@ -511,8 +508,8 @@ function renderResults(): void{
     if(lists[practising.listIndex!].correctHistory.length > 1){
         canvasContainer.innerHTML = `<canvas id="graph" width="500px" height="240px"></canvas>`;
         const canvas = document.getElementById("graph") as HTMLCanvasElement;
-        canvas.width = canvas.offsetWidth;
-        canvas.height = canvas.offsetHeight;
+        canvas.width = canvasContainer.clientWidth;
+        canvas.height = canvasContainer.clientHeight;
         graph(lists[practising.listIndex!].correctHistory, lists[practising.listIndex!].words.length);
     }
 
@@ -577,23 +574,26 @@ function randomize(array: any[]): any[]{
 
 
 function graph(correctHistory: number[], nQuestions: number): void{
-    let ctx = (document.getElementById("graph")! as HTMLCanvasElement).getContext("2d")!;
-    let verticalK = 240 / nQuestions;
-    let horizontalK = 500 / (correctHistory.length - 1);
+    let canvas = document.getElementById("graph")!as HTMLCanvasElement
+    let ctx = canvas.getContext("2d")!;
+    const w = canvas.width;
+    const h = canvas.height;
+    let verticalK = h / nQuestions;
+    let horizontalK = w / (correctHistory.length - 1);
     let maxHistory = 50;
     let lastIndex = 0;
     let gapX = 0;
 
     if(correctHistory.length > maxHistory){
         lastIndex = correctHistory.length - maxHistory - 1;
-        horizontalK = 500 / maxHistory;
+        horizontalK = w / maxHistory;
         gapX = maxHistory;
     }
 
     ctx.fillStyle = "#6ab04c";
 
-    ctx.translate(0, 240);
-    ctx.moveTo(500, 0);
+    ctx.translate(0, h);
+    ctx.moveTo(w, 0);
     ctx.beginPath();
 
     for(let i = correctHistory.length - 1; i >= lastIndex; i--){
@@ -601,7 +601,7 @@ function graph(correctHistory: number[], nQuestions: number): void{
     }
 
     ctx.lineTo(0, 0);
-    ctx.lineTo(500, 0);
+    ctx.lineTo(w, 0);
 
     ctx.fill();
 }
