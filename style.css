@@ -749,7 +749,7 @@ h3{
         overflow-x: hidden;
     }
     #history-article {
-        display: flex;
+        display: none;
         width: calc(100% - 30px);
         max-width: 100%;
         height: auto;
