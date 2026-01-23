@@ -180,7 +180,7 @@ h3{
 
 #list-title{
     height: 75px;
-    width: 100%;
+    width: calc(100% - 50px);
     padding-left: 50px;
     background-color: var(--color2);
     color: white;
