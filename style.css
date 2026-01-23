@@ -1,4 +1,4 @@
-:root{
+:root {
     --color7: #af84db;
     --color6: #f7f49e;
     --color5: #333333;
@@ -8,17 +8,17 @@
     --color1: #2474b6;
 }
 
-*{
+* {
     margin: 0px;
     padding: 0px;
     font-family: Calibri, Arial, sans-serif;
 }
 
-html{
+html {
     scroll-behavior: smooth;
 }
 
-#home{
+#home {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -29,17 +29,18 @@ html{
     min-height: 100vh;
 }
 
-h1{
+h1 {
     font-size: 50px;
     color: white;
+    text-align: center;
 }
 
-.big-letters{
+.big-letters {
     font-size: 100px;
     color: var(--color6);
 }
 
-input{
+input {
     outline: none;
     border: 0;
     border-bottom: 2px transparent solid;
@@ -50,11 +51,11 @@ input{
     padding: 5px 10px;
 }
 
-input:focus{
+input:focus {
     border-bottom: 2px var(--color2) solid;
 }
 
-article{
+article {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -64,11 +65,16 @@ article{
     background-color: white;
 }
 
-#paste-input{
+#paste-input {
     width: 500px;
 }
 
-.error-message{
+#article-paste-title {
+    text-align: center;
+    width: 97%;
+}
+
+.error-message {
     color: var(--color3);
     background-color: rgba(176, 76, 76, 0.1);
     padding: 10px 15px;
@@ -79,7 +85,7 @@ article{
     text-align: left;
 }
 
-button{
+button {
     background-color: var(--color2);
     padding: 7px 15px;
     border-radius: 5px;
@@ -88,42 +94,42 @@ button{
     color: white;
 }
 
-#create-list{
+#create-list {
     font-size: 23px;
 }
 
-#import{
-	display: none;
+#import {
+    display: none;
 }
 
-#import-label{
-	font-size: 23px;
-	background-color: var(--color2);
-	color: white;
-	padding: 7px 15px;
-	border-radius: 5px;
-	cursor: pointer;
-	border: 0;
+#import-label {
+    font-size: 23px;
+    background-color: var(--color2);
+    color: white;
+    padding: 7px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    border: 0;
 }
 
-.create-buttons{
-	display: flex;
-	gap: 10px;
+.create-buttons {
+    display: flex;
+    gap: 10px;
 }
 
-#lists{
+#lists {
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 5px;
 }
 
-h3{
+h3 {
     font-size: 20px;
     font-weight: lighter;
 }
 
-.list{
+.list {
     width: 480px;
     background-color: rgb(232, 232, 232);
     padding: 10px 20px;
@@ -133,25 +139,26 @@ h3{
     border-radius: 5px;
 }
 
-#no-lists{
+#no-lists {
     width: 520px;
     text-align: center;
 }
 
-.buttons{
+.buttons {
     display: flex;
     gap: 10px;
     align-items: center;
 }
 
-#mode-selection{
+#mode-selection {
     display: none;
     width: 100vw;
     height: 100vh;
     flex-direction: column;
 }
 
-#normal, #reverse{
+#normal,
+#reverse {
     height: 50vh;
     width: 100vw;
     display: flex;
@@ -162,23 +169,23 @@ h3{
     cursor: pointer;
 }
 
-#normal{
+#normal {
     background-color: var(--color6);
     color: black;
 }
 
-#reverse{
+#reverse {
     background-color: var(--color5);
     color: rgb(255, 255, 255);
 }
 
-#question-container{
+#question-container {
     display: none;
     height: 100vh;
     flex-direction: column;
 }
 
-#list-title{
+#list-title {
     height: 75px;
     width: calc(100% - 50px);
     padding-left: 50px;
@@ -188,11 +195,12 @@ h3{
     align-items: center;
 }
 
-#word-answer-container{
+#word-answer-container {
     height: calc(100vh - 85px);
 }
 
-#word, #answer{
+#word,
+#answer {
     height: 50%;
     width: 100vw;
     display: flex;
@@ -202,28 +210,28 @@ h3{
     padding: 0;
 }
 
-#word{
+#word {
     background-color: var(--color6);
     color: rgb(0, 0, 0);
     font-size: 75px;
 }
 
-#answer{
+#answer {
     background-color: var(--color5);
 }
 
-#bar{
+#bar {
     height: 10px;
     background-color: var(--color2);
     width: 0px;
 }
 
-#answer-input{
+#answer-input {
     font-size: 50px;
     align-self: center;
 }
 
-#feedback{
+#feedback {
     height: 100vh;
     color: white;
     font-size: 50px;
@@ -235,15 +243,15 @@ h3{
     gap: 30px;
 }
 
-#feedback.correct{
+#feedback.correct {
     background-color: var(--color2);
 }
 
-#feedback.incorrect{
+#feedback.incorrect {
     background-color: var(--color3);
 }
 
-#result{
+#result {
     display: none;
     flex-direction: column;
     align-items: center;
@@ -258,40 +266,42 @@ h3{
     min-height: calc(100vh - 80px);
 }
 
-#correct-answers{
+#correct-answers {
     color: var(--color2);
 }
 
-#incorrect-answers{
+#incorrect-answers {
     color: var(--color3);
 }
 
-#buttons{
+#buttons {
     display: flex;
     gap: 20px;
 }
 
-#home-btn, #errors-btn{
+#home-btn,
+#errors-btn {
     background-color: var(--color2);
     font-size: 23px;
 }
 
-#correct-answers, #incorrect-answers{
+#correct-answers,
+#incorrect-answers {
     font-size: 100px;
 }
 
-#result-title{
+#result-title {
     font-size: 75px;
 }
 
-#correct-incorrect-container{
+#correct-incorrect-container {
     display: flex;
     flex-direction: column;
     gap: 20px;
     align-items: center;
 }
 
-#count{
+#count {
     display: flex;
     justify-content: center;
     gap: 20px;
@@ -301,14 +311,14 @@ h3{
     box-sizing: border-box;
 }
 
-#accuracy{
+#accuracy {
     font-size: 150px;
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
-#impexp-buttons{
+#impexp-buttons {
     position: fixed;
     left: 20px;
     bottom: 20px;
@@ -317,17 +327,17 @@ h3{
     gap: 10px;
 }
 
-#export-all{
+#export-all {
     background-color: cadetblue;
     font-size: 16px;
 }
 
-#import-all{
+#import-all {
     background-color: goldenrod;
     font-size: 16px;
 }
 
-.data{
+.data {
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -336,49 +346,49 @@ h3{
     border-radius: 10px;
 }
 
-.incorrect-correct-data{
+.incorrect-correct-data {
     width: 190px;
     height: 190px;
 }
 
-#accuracy-container{
+#accuracy-container {
     width: 400px;
     height: 400px;
 }
 
-.black{
+.black {
     color: black;
 }
 
-.green{
+.green {
     color: var(--color2);
 }
 
-.edit-button{
+.edit-button {
     background-color: var(--color1);
 }
 
-#home-btn{
+#home-btn {
     background-color: var(--color1);
 }
 
-#history-graph{
+#history-graph {
     width: 610px;
     height: 400px;
 }
 
-#canvas-container{
+#canvas-container {
     height: 300px;
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
-.data-title{
+.data-title {
     font-weight: bold;
 }
 
-#graph{
+#graph {
     display: block;
     border-bottom-width: 5px;
     border-bottom-color: black;
@@ -389,101 +399,102 @@ h3{
     padding-top: 20px;
 }
 
-#history-article{
+#history-article {
     display: none;
     width: 520px;
 }
 
-.graph-button{
+.graph-button {
     background-color: var(--color6);
     color: black;
 }
 
-#history-canvas{
+#history-canvas {
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
-#close-graph{
+#close-graph {
     background-color: var(--color3);
 }
 
-#github{
-	position: fixed;
-	bottom: 25px;
-	right: 25px;
-	width: 30px;
-	height: 30px;
-	filter: invert(100%);
+#github {
+    position: fixed;
+    bottom: 25px;
+    right: 25px;
+    width: 30px;
+    height: 30px;
+    filter: invert(100%);
 }
 
-#github img{
-	width: 100%;
-	height: 100%;
+#github img {
+    width: 100%;
+    height: 100%;
 }
 
-.checkbox{
+.checkbox {
     cursor: pointer;
     width: 16px;
     height: 16px;
 }
 
-.checkbox-and-name{
+.checkbox-and-name {
     display: flex;
     gap: 10px;
     align-items: center;
 }
 
-#union{
+#union {
     font-size: 23px;
     display: none;
 }
 
-#delete{
+#delete {
     font-size: 23px;
     display: none;
     background-color: var(--color3);
 }
 
 #export {
-  font-size: 23px;
-  display: none;
-  background-color: var(--color1);
+    font-size: 23px;
+    display: none;
+    background-color: var(--color1);
 }
 
 
-#select-buttons{
+#select-buttons {
     display: flex;
     gap: 10px;
 }
 
-#are-you-sure{
+#are-you-sure {
     display: none;
     flex-direction: column;
     align-items: center;
     box-shadow: inset;
 }
 
-#are-you-sure-buttons{
+#are-you-sure-buttons {
     display: flex;
     gap: 10px;
 }
 
-#yes, #no{
+#yes,
+#no {
     font-size: 23px
 }
 
-#yes{
+#yes {
     background-color: var(--color3);
 }
 
-.list-name{
+.list-name {
     width: 135px;
     text-wrap: balance;
 }
 
-.duplicate-button{
+.duplicate-button {
     background-color: var(--color7);
 }
 
@@ -504,13 +515,19 @@ h3{
         padding: 15px 10px;
         gap: 25px;
     }
-    h1{
+
+    h1 {
         font-size: 32px;
     }
+
     .big-letters {
         font-size: 55px;
     }
-    #paste-input, .list, #no-lists, #history-article {
+
+    #paste-input,
+    .list,
+    #no-lists,
+    #history-article {
         width: 100%;
         max-width: 100%;
         box-sizing: border-box;
@@ -540,7 +557,11 @@ h3{
         min-width: 70px;
     }
 
-    #create-list, #union, #delete, #yes, #no {
+    #create-list,
+    #union,
+    #delete,
+    #yes,
+    #no {
         font-size: 18px;
     }
 
@@ -551,7 +572,8 @@ h3{
         gap: 5px;
     }
 
-    #export-all, #import-all {
+    #export-all,
+    #import-all {
         font-size: 14px;
         padding: 10px 12px;
     }
@@ -565,7 +587,8 @@ h3{
         min-height: 100vh;
     }
 
-    #word, #answer {
+    #word,
+    #answer {
         min-height: 35vh;
         padding: 15px;
     }
@@ -587,33 +610,41 @@ h3{
     #feedback {
         font-size: 2.2rem;
     }
-    html, body {
+
+    html,
+    body {
         overflow-x: hidden;
     }
+
     #accuracy {
         font-size: clamp(28px, 7vw, 38px);
     }
-    #accuracy-container{
+
+    #accuracy-container {
         width: 90px;
         flex: 1.2;
         height: auto;
         aspect-ratio: 1 / 1;
     }
-    #correct-incorrect-container{
+
+    #correct-incorrect-container {
         flex: 1;
         display: flex;
         width: 180px;
         gap: 10px;
         flex-direction: column;
     }
+
     .data {
         flex-shrink: 0;
     }
+
     .incorrect-correct-data {
         width: min(45vw, 160px);
         height: min(45vw, 160px);
         flex-shrink: 0;
     }
+
     #history-graph {
         width: clamp(280px, 90vw, 500px);
         margin-top: 15px;
@@ -624,15 +655,18 @@ h3{
         max-width: 400px;
         object-fit: contain;
     }
+
     #history-graph .data {
         padding: 12px;
     }
+
     #history-graph .data-title {
         margin-bottom: 3px;
         font-size: 14px;
         line-height: 1.1;
     }
-    #canvas-container{
+
+    #canvas-container {
         width: 100%;
         height: 250px;
         display: flex;
@@ -643,6 +677,7 @@ h3{
         padding: 20px;
         box-sizing: border-box;
     }
+
     #history-article {
         display: none;
         width: 90%;
@@ -654,6 +689,7 @@ h3{
         box-sizing: border-box;
         overflow: visible;
     }
+
     #history-canvas {
         width: 100%;
         justify-content: center;
@@ -661,11 +697,13 @@ h3{
         display: block;
         object-fit: contain;
     }
+
     canvas {
         width: 100%;
         height: 100%;
         display: block;
     }
+
     #count {
         display: flex;
         flex-direction: row;
@@ -676,10 +714,13 @@ h3{
         max-width: 600px;
         gap: 0px;
     }
-    #correct-answers, #incorrect-answers {
+
+    #correct-answers,
+    #incorrect-answers {
         font-size: 28px;
         line-height: 1;
     }
+
     #graph {
         border-bottom: 5px solid black;
         border-left: 5px solid black;
@@ -691,23 +732,30 @@ h3{
     h1 {
         font-size: 28px;
     }
+
     .big-letters {
         font-size: 45px;
     }
+
     input {
         font-size: 18px;
         padding: 12px;
     }
-    #question-container, #feedback {
+
+    #question-container,
+    #feedback {
         font-size: 35px;
     }
+
     #answer-input {
         font-size: 1.4rem;
         text-align: center;
     }
+
     #word {
         font-size: 1.8rem;
     }
+
     #count {
         display: flex;
         flex-direction: row;
@@ -715,39 +763,50 @@ h3{
         align-items: stretch;
         width: 100%;
         gap: 10px;
-        }
+    }
+
     #accuracy {
         font-size: clamp (40px, 15vw, 100px);
         width: 100%;
         text-align: center;
         line-height: 1;
     }
+
     #accuracy-container {
         width: 30%;
         height: auto;
         aspect-ratio: 1 / 1;
         padding: 20px;
     }
+
     #correct-incorrect-container {
         gap: 10px;
     }
-    #correct-answers, #incorrect-answers {
+
+    #correct-answers,
+    #incorrect-answers {
         font-size: 50px;
     }
+
     #result-title {
         font-size: 35px;
         margin-bottom: 10px;
     }
+
     #history-graph {
         width: 100%;
         height: auto;
     }
+
     #feedback {
         font-size: 1.8rem;
     }
-    html, body {
+
+    html,
+    body {
         overflow-x: hidden;
     }
+
     #history-article {
         display: none;
         width: calc(100% - 30px);
@@ -757,11 +816,14 @@ h3{
         margin: auto;
         box-sizing: border-box;
     }
-    #history-canvas, canvas {
+
+    #history-canvas,
+    canvas {
         width: 100%;
         height: 100%;
         display: block;
     }
+
     #canvas-container {
         width: 100%;
         height: 200px;
@@ -772,5 +834,18 @@ h3{
         padding: 20px;
         overflow: hidden;
         box-sizing: border-box;
+    }
+
+    #paste-input-container {
+        padding: 30px 0px;
+        width: 95%;
+    }
+
+    #paste-input {
+        width: 97%
+    }
+
+    #name-input {
+        width: 80%;
     }
 }
