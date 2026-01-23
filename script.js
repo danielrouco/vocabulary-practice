@@ -34,6 +34,9 @@ const exportBtn = document.getElementById("export");
 const exportallBtn = document.getElementById("export-all");
 const importallBtn = document.getElementById("import-all");
 const importallFileBtn = document.getElementById("import-file");
+const nextQBtn = document.getElementById("next-q-btn");
+const feedback = document.getElementById("feedback");
+const feedbackContent = document.getElementById("feedback-content");
 let correctAnswer;
 let correctAnswers;
 let incorrectAnswers;
@@ -308,6 +311,13 @@ importallFileBtn.addEventListener("change", function (e) {
     };
     reader.readAsText(file);
 });
+nextQBtn.addEventListener("click", () => {
+    if (!inPractice)
+        return;
+    if (!isCorrected)
+        return;
+    next();
+});
 //#region FUNCTIONS
 function renderLists() {
     listsDiv.innerHTML = "";
@@ -349,8 +359,8 @@ function renderQuestion(wordObject) {
         correctAnswer = allTranslations;
     }
     isCorrected = false;
-    correct.style.display = "none";
-    incorrect.style.display = "none";
+    nextQBtn.style.display = "none";
+    feedback.style.display = "none";
     questionContainer.style.display = "flex";
     bar.style.width = `${(practising.questionIndex / practising.list.words.length) * 100}vw`;
     practising.questionIndex++;
@@ -363,16 +373,18 @@ function renderCorrection(isCorrect) {
     const current = practising.list.words[practising.questionIndex - 1];
     const displayQuestion = practising.list.isReversed ? current.answers.map(a => a.ans).join(" / ") : current.word;
     if (isCorrect) {
-        correct.style.display = "flex";
+        feedbackContent.innerHTML = "Very Good";
         correctAnswers.words.push(current);
     }
     else {
-        incorrect.style.display = "flex";
-        incorrect.innerHTML = `<div>
+        feedbackContent.innerHTML = `<div>
         No!<br>The answer for <span class="black">${displayQuestion}</span> was: <span class="green">${correctAnswer}</span>
         </div>`;
         incorrectAnswers.words.push(current);
     }
+    feedback.className = isCorrect ? "correct" : "incorrect";
+    feedback.style.display = "flex";
+    nextQBtn.style.display = "flex";
 }
 function reverseList(listToReverse) {
     let list = structuredClone(listToReverse);
@@ -393,6 +405,8 @@ function goHome() {
     canvasContainer.innerHTML = `<p id="no-data">There is not enough data to draw a graph</p>`;
 }
 function next() {
+    feedback.style.display = "none";
+    nextQBtn.style.display = "none";
     if (practising.questionIndex >= practising.list.words.length) {
         renderResults();
         return;
@@ -401,8 +415,8 @@ function next() {
 }
 function renderResults() {
     result.style.display = "flex";
-    correct.style.display = "none";
-    incorrect.style.display = "none";
+    feedback.style.display = "none";
+    nextQBtn.style.display = "none";
     inPractice = false;
     if (incorrectAnswers.words.length === 0) {
         errorsBtn.style.display = "none";
@@ -419,6 +433,9 @@ function renderResults() {
     accuracy.innerHTML = String(Math.round(correctAnswers.words.length / practising.list.words.length * 100)) + "%";
     if (lists[practising.listIndex].correctHistory.length > 1) {
         canvasContainer.innerHTML = `<canvas id="graph" width="500px" height="240px"></canvas>`;
+        const canvas = document.getElementById("graph");
+        canvas.width = canvasContainer.clientWidth;
+        canvas.height = canvasContainer.clientHeight;
         graph(lists[practising.listIndex].correctHistory, lists[practising.listIndex].words.length);
     }
     localStorage.setItem("data", JSON.stringify(lists));
@@ -468,26 +485,29 @@ function randomize(array) {
     return newArray;
 }
 function graph(correctHistory, nQuestions) {
-    let ctx = document.getElementById("graph").getContext("2d");
-    let verticalK = 240 / nQuestions;
-    let horizontalK = 500 / (correctHistory.length - 1);
+    let canvas = document.getElementById("graph");
+    let ctx = canvas.getContext("2d");
+    const w = canvas.width;
+    const h = canvas.height;
+    let verticalK = h / nQuestions;
+    let horizontalK = w / (correctHistory.length - 1);
     let maxHistory = 50;
     let lastIndex = 0;
     let gapX = 0;
     if (correctHistory.length > maxHistory) {
         lastIndex = correctHistory.length - maxHistory - 1;
-        horizontalK = 500 / maxHistory;
+        horizontalK = w / maxHistory;
         gapX = maxHistory;
     }
     ctx.fillStyle = "#6ab04c";
-    ctx.translate(0, 240);
-    ctx.moveTo(500, 0);
+    ctx.translate(0, h);
+    ctx.moveTo(w, 0);
     ctx.beginPath();
     for (let i = correctHistory.length - 1; i >= lastIndex; i--) {
         ctx.lineTo((i - gapX) * horizontalK, -1 * correctHistory[i] * verticalK);
     }
     ctx.lineTo(0, 0);
-    ctx.lineTo(500, 0);
+    ctx.lineTo(w, 0);
     ctx.fill();
 }
 function wordEquals(first, second) {

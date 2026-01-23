@@ -156,6 +156,7 @@ h3{
     width: 100vw;
     display: flex;
     justify-content: center;
+    text-align: center;
     align-items: center;
     font-size: 40px;
     cursor: pointer;
@@ -179,6 +180,7 @@ h3{
 
 #list-title{
     height: 75px;
+    width: calc(100% - 50px);
     padding-left: 50px;
     background-color: var(--color2);
     color: white;
@@ -196,6 +198,8 @@ h3{
     display: flex;
     justify-content: center;
     align-items: center;
+    margin: 0;
+    padding: 0;
 }
 
 #word{
@@ -216,9 +220,10 @@ h3{
 
 #answer-input{
     font-size: 50px;
+    align-self: center;
 }
 
-#correct, #incorrect{
+#feedback{
     height: 100vh;
     color: white;
     font-size: 50px;
@@ -226,13 +231,15 @@ h3{
     align-items: center;
     display: none;
     text-align: center;
+    flex-direction: column;
+    gap: 30px;
 }
 
-#correct{
+#feedback.correct{
     background-color: var(--color2);
 }
 
-#incorrect{
+#feedback.incorrect{
     background-color: var(--color3);
 }
 
@@ -240,6 +247,10 @@ h3{
     display: none;
     flex-direction: column;
     align-items: center;
+    padding: 20px;
+    box-sizing: border-box;
+    padding-left: 15px;
+    padding-right: 15px;
     padding-top: 40px;
     padding-bottom: 40px;
     gap: 50px;
@@ -284,6 +295,10 @@ h3{
     display: flex;
     justify-content: center;
     gap: 20px;
+    max-width: 600px;
+    margin: 0 auto;
+    width: 100%;
+    box-sizing: border-box;
 }
 
 #accuracy{
@@ -371,6 +386,7 @@ h3{
     border-left-width: 5px;
     border-left-color: black;
     border-left-style: solid;
+    padding-top: 20px;
 }
 
 #history-article{
@@ -469,4 +485,292 @@ h3{
 
 .duplicate-button{
     background-color: var(--color7);
+}
+
+#next-q-btn {
+    display: none;
+    gap: 20px;
+    padding: 7px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    border: 0;
+    background-color: #73999ec1;
+    align-items: center;
+    font-size: 25px;
+}
+
+@media (max-width: 768px) {
+    #home {
+        padding: 15px 10px;
+        gap: 25px;
+    }
+    h1{
+        font-size: 32px;
+    }
+    .big-letters {
+        font-size: 55px;
+    }
+    #paste-input, .list, #no-lists, #history-article {
+        width: 100%;
+        max-width: 100%;
+        box-sizing: border-box;
+    }
+
+    .list {
+        flex-direction: column;
+        text-align: center;
+        padding: 15px;
+    }
+
+    .list-name {
+        width: 100%;
+        margin-bottom: 10px;
+        font-size: 18px;
+    }
+
+    .buttons {
+        width: 100%;
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+
+    button {
+        font-size: 16px;
+        padding: 12px 20px;
+        min-width: 70px;
+    }
+
+    #create-list, #union, #delete, #yes, #no {
+        font-size: 18px;
+    }
+
+    #impexp-buttons {
+        left: 10px;
+        bottom: 10px;
+        flex-direction: row;
+        gap: 5px;
+    }
+
+    #export-all, #import-all {
+        font-size: 14px;
+        padding: 10px 12px;
+    }
+
+    #select-buttons {
+        flex-wrap: wrap;
+        gap: 8px;
+    }
+
+    #question-container {
+        min-height: 100vh;
+    }
+
+    #word, #answer {
+        min-height: 35vh;
+        padding: 15px;
+    }
+
+    #word {
+        font-size: 2.2rem;
+    }
+
+    #answer-input {
+        font-size: 1.8rem;
+        width: 55%;
+        padding-right: 70px;
+    }
+
+    #bar {
+        height: 8px;
+    }
+
+    #feedback {
+        font-size: 2.2rem;
+    }
+    html, body {
+        overflow-x: hidden;
+    }
+    #accuracy {
+        font-size: clamp(28px, 7vw, 38px);
+    }
+    #accuracy-container{
+        width: 90px;
+        flex: 1.2;
+        height: auto;
+        aspect-ratio: 1 / 1;
+    }
+    #correct-incorrect-container{
+        flex: 1;
+        display: flex;
+        width: 180px;
+        gap: 10px;
+        flex-direction: column;
+    }
+    .data {
+        flex-shrink: 0;
+    }
+    .incorrect-correct-data {
+        width: min(45vw, 160px);
+        height: min(45vw, 160px);
+        flex-shrink: 0;
+    }
+    #history-graph {
+        width: clamp(280px, 90vw, 500px);
+        margin-top: 15px;
+        margin-bottom: 5px;
+        font-size: clamp(14px, 4vw, 18px);
+        margin: 20px auto 10px;
+        height: clamp(250px, 60vw, 350px);
+        max-width: 400px;
+        object-fit: contain;
+    }
+    #history-graph .data {
+        padding: 12px;
+    }
+    #history-graph .data-title {
+        margin-bottom: 3px;
+        font-size: 14px;
+        line-height: 1.1;
+    }
+    #canvas-container{
+        width: 100%;
+        height: 250px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        overflow: visible;
+        position: relative;
+        padding: 20px;
+        box-sizing: border-box;
+    }
+    #history-article {
+        display: none;
+        width: 90%;
+        max-width: 610px;
+        height: auto;
+        margin: 20px auto;
+        padding: 40px;
+        padding-left: 20px;
+        box-sizing: border-box;
+        overflow: visible;
+    }
+    #history-canvas {
+        width: 100%;
+        justify-content: center;
+        align-items: center;
+        display: block;
+        object-fit: contain;
+    }
+    canvas {
+        width: 100%;
+        height: 100%;
+        display: block;
+    }
+    #count {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: nonwrap;
+        justify-content: center;
+        align-items: stretch;
+        width: 100%;
+        max-width: 600px;
+        gap: 0px;
+    }
+    #correct-answers, #incorrect-answers {
+        font-size: 28px;
+        line-height: 1;
+    }
+    #graph {
+        border-bottom: 5px solid black;
+        border-left: 5px solid black;
+        box-sizing: border-box;
+    }
+}
+
+@media (max-width: 480px) {
+    h1 {
+        font-size: 28px;
+    }
+    .big-letters {
+        font-size: 45px;
+    }
+    input {
+        font-size: 18px;
+        padding: 12px;
+    }
+    #question-container, #feedback {
+        font-size: 35px;
+    }
+    #answer-input {
+        font-size: 1.4rem;
+        text-align: center;
+    }
+    #word {
+        font-size: 1.8rem;
+    }
+    #count {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: stretch;
+        width: 100%;
+        gap: 10px;
+        }
+    #accuracy {
+        font-size: clamp (40px, 15vw, 100px);
+        width: 100%;
+        text-align: center;
+        line-height: 1;
+    }
+    #accuracy-container {
+        width: 30%;
+        height: auto;
+        aspect-ratio: 1 / 1;
+        padding: 20px;
+    }
+    #correct-incorrect-container {
+        gap: 10px;
+    }
+    #correct-answers, #incorrect-answers {
+        font-size: 50px;
+    }
+    #result-title {
+        font-size: 35px;
+        margin-bottom: 10px;
+    }
+    #history-graph {
+        width: 100%;
+        height: auto;
+    }
+    #feedback {
+        font-size: 1.8rem;
+    }
+    html, body {
+        overflow-x: hidden;
+    }
+    #history-article {
+        display: flex;
+        width: calc(100% - 30px);
+        max-width: 100%;
+        height: auto;
+        padding: 20px;
+        margin: auto;
+        box-sizing: border-box;
+    }
+    #history-canvas, canvas {
+        width: 100%;
+        height: 100%;
+        display: block;
+    }
+    #canvas-container {
+        width: 100%;
+        height: 200px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 200px;
+        padding: 20px;
+        overflow: hidden;
+        box-sizing: border-box;
+    }
 }
